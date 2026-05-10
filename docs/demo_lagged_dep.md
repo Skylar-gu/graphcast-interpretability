@@ -182,7 +182,7 @@ Outputs:
 
 ---
 
-## 6. (Optional) Visualization atlas
+## 6. Visualization atlas
 
 ```bash
 streamlit run viz/app.py --server.port 8501
