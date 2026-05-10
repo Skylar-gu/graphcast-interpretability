@@ -183,10 +183,43 @@ Output: `viz/data/feature_catalog.parquet`
 
 ---
 
-## 5. Target-centered causal analysis
+## 5. Target-centered dependency / causal analysis
+
+The script supports two modes:
+
+### 5a. Lagged dependency graph (fast demo — works with 32 timesteps)
+
+No tigramite needed. Runs in seconds. Good for a 2-day demo.
 
 ```bash
 python scripts/causal_graph.py \
+    --mode lagged_corr \
+    --focal_feature 3243 \
+    --seed_features 117,402,911,2088 \
+    --tau_max 4 \
+    --threshold 0.30 \
+    --sae_id layer8_k32_d4096 \
+    --data_dir viz/data \
+    --out_dir results/causal
+```
+
+Steps: feature time series extraction → pairwise lagged Pearson cross-correlations
+→ thresholded directed graph (A→B if corr(A[t], B[t+τ]) ≥ 0.30) → validation.
+
+Outputs:
+- `results/causal/lag_dep_graph.png` — network graph with lag labels
+- `results/causal/lag_corr_heatmap.png` — cross-correlation heatmap per lag
+- `results/causal/lag_corr_results.json`
+- `results/causal/validation.txt`
+
+**Note:** This is a dependency graph, not a causal graph — edges show predictability,
+not causation. Spurious correlations from shared forcing are not removed.
+
+### 5b. Full PCMCI+ causal graph (cluster — needs 1,464 timesteps)
+
+```bash
+python scripts/causal_graph.py \
+    --mode pcmciplus \
     --focal_feature 3243 \
     --seed_features 117,402,911,2088 \
     --n_mi_candidates 20 \
@@ -196,7 +229,7 @@ python scripts/causal_graph.py \
     --out_dir results/causal
 ```
 
-This runs:
+Steps:
 1. **Feature time series extraction** — scalar activation per feature per timestep
 2. **MI screening** — rank all 4,096 features by MI with Feature 3243; select top-20
 3. **PCMCI+** — causal graph over seed features + MI candidates (~25 nodes)
@@ -204,9 +237,9 @@ This runs:
 5. **Validation table** — checks expected edges against recovered graph
 
 Outputs:
-- `results/causal/causal_graph.png` — graphviz-style lag graph
+- `results/causal/causal_graph.png` — PCMCI+ lag graph
 - `results/causal/results.json` — full adjacency matrix, p-values, effect sizes
-- `results/causal/validation.txt` — expected vs recovered edge comparison
+- `results/causal/validation.txt`
 
 ---
 
