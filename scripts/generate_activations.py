@@ -245,10 +245,14 @@ def load_graphcast_cached(cache_dir: str):
 # Hurricane seasons chosen because Feature 3243 (TC tracker) fires primarily
 # during Atlantic/Pacific TC activity. 2020 and 2021 were both very active seasons.
 PRESETS: dict[str, tuple[str, str, str, str]] = {
-    "hurricane_ida":         ("2021-08-28", "2021-08-30", "2021-08-29T00", "2021-08-30T00"),
-    "hurricane_season_2020": ("2020-05-31", "2020-12-01", "2020-06-01T00", "2020-12-01T00"),
-    "hurricane_season_2021": ("2021-05-31", "2021-12-01", "2021-06-01T00", "2021-12-01T00"),
-    "hurricane_seasons_both":("2020-05-31", "2021-12-01", "2020-06-01T00", "2021-12-01T00"),
+    # Single landfall day (4 timesteps) — quick smoke-test
+    "hurricane_ida":          ("2021-08-28", "2021-08-30", "2021-08-29T00", "2021-08-30T00"),
+    # Full Ida week (32 timesteps) — proof-of-concept demo
+    "hurricane_ida_week":     ("2021-08-23", "2021-09-01", "2021-08-24T00", "2021-09-01T00"),
+    # Full Atlantic hurricane seasons — cluster / causal analysis
+    "hurricane_season_2020":  ("2020-05-31", "2020-12-01", "2020-06-01T00", "2020-12-01T00"),
+    "hurricane_season_2021":  ("2021-05-31", "2021-12-01", "2021-06-01T00", "2021-12-01T00"),
+    "hurricane_seasons_both": ("2020-05-31", "2021-12-01", "2020-06-01T00", "2021-12-01T00"),
 }
 
 
