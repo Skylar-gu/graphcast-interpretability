@@ -1,0 +1,5 @@
+edge	status	r	lag
+moist inflow → TC core, 6h	MISSING — feature not in graph		
+low-pressure → TC core, 6h	MISSING — feature not in graph		
+warm-core → TC intensification, 12h	MISSING — feature not in graph		
+TC core → upper outflow, 6h	MISSING — feature not in graph		

@@ -31,8 +31,9 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Results (large outputs)
-results/
+
+# Results — PDFs/txt tracked, JSON excluded (large/regenerable)
+results/**/*.json
 
 # JAX / XLA compile cache
 jax_cache/

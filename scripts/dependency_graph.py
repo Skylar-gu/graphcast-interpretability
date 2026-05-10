@@ -15,7 +15,7 @@ Two modes:
       orientation.  Needs tigramite + causal-learn.  Requires ~750+ timesteps.
 
 Usage — screen all features (lagged_corr, 32 timesteps):
-    python scripts/causal_graph.py \\
+    python scripts/dependency_graph.py \\
         --focal_feature 3243 \\
         --screen_all \\
         --n_top 20 \\
@@ -23,7 +23,7 @@ Usage — screen all features (lagged_corr, 32 timesteps):
         --mode lagged_corr \\
         --sae_id layer8_k32_d4096 \\
         --data_dir viz/data \\
-        --out_dir results/causal
+        --out_dir results/dep_graph
 
 Usage — include specific features (32 timesteps):
     python scripts/dependency_graph.py \\
@@ -33,7 +33,7 @@ Usage — include specific features (32 timesteps):
         --mode lagged_corr \\
         --sae_id layer8_k32_d4096 \\
         --data_dir viz/data \\
-        --out_dir results/causal
+        --out_dir results/dep_graph
 
 Usage — cluster (1464 timesteps, full PCMCI+):
     python scripts/dependency_graph.py \\
@@ -44,7 +44,7 @@ Usage — cluster (1464 timesteps, full PCMCI+):
         --mode pcmciplus \\
         --sae_id layer8_k32_d4096 \\
         --data_dir viz/data \\
-        --out_dir results/causal
+        --out_dir results/dep_graph
 """
 
 from __future__ import annotations
@@ -728,12 +728,12 @@ def main() -> None:
             out_dir=out_dir,
             focal_feature=focal,
         )
-        plot_lag_graph(results, focal, out_dir / "lag_dep_graph.png")
-        plot_corr_heatmap(results, args.tau_max, out_dir / "lag_corr_heatmap.png")
+        plot_lag_graph(results, focal, out_dir / "lag_dep_graph.pdf")
+        plot_corr_heatmap(results, args.tau_max, out_dir / "lag_corr_heatmap.pdf")
 
         print(f"\nOutputs in {out_dir}/")
-        print("  lag_dep_graph.png    — network graph")
-        print("  lag_corr_heatmap.png — correlation heatmap by lag")
+        print("  lag_dep_graph.pdf    — network graph")
+        print("  lag_corr_heatmap.pdf — correlation heatmap by lag")
         print("  lag_corr_results.json")
         print("  validation.txt")
         if args.screen_all:
@@ -832,5 +832,5 @@ if __name__ == "__main__":
        --mode lagged_corr \
        --sae_id layer8_k32_d4096 \
        --data_dir viz/data \
-       --out_dir results/causal 2>&1 | tail -8
+       --out_dir results/dep_graph 2>&1 | tail -8
 '''
