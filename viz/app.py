@@ -125,6 +125,9 @@ with st.sidebar:
 
     # ── Feature selection ─────────────────────────────────────────────────
     st.subheader("Feature")
+    # Apply a pending jump from the known-feature selectbox before the widget renders.
+    if "_jump_to_feature" in st.session_state:
+        st.session_state["feature_id_input"] = st.session_state.pop("_jump_to_feature")
     feature_id = st.number_input(
         "Feature ID",
         min_value=0,
@@ -149,7 +152,7 @@ with st.sidebar:
             if kf_jump != "—":
                 new_fid = int(kf_jump.split(":")[0])
                 if new_fid != feature_id:
-                    st.session_state["feature_id_input"] = new_fid
+                    st.session_state["_jump_to_feature"] = new_fid
                     st.rerun()
                 feature_id = new_fid
 
