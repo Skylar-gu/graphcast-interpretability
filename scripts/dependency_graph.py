@@ -318,6 +318,7 @@ def run_lagged_corr(
         "threshold": threshold,
         "tau_max": tau_max,
         "n_timesteps": int(series.shape[0]),
+        "focal_feature": focal_feature,
         "feature_ids": feature_ids,
         "var_names": var_names,
         "edges": edges,
@@ -461,30 +462,38 @@ def plot_corr_heatmap(
     """Heatmap of corr(i[t], j[t+τ]) for each pair and lag."""
     import matplotlib.pyplot as plt
 
-    feature_ids = results["feature_ids"]
-    var_names   = results["var_names"]
-    cube        = np.array(results["corr_cube"])   # (F, F, tau_max)
-    F           = len(feature_ids)
-    step_h      = 6
+    feature_ids  = results["feature_ids"]
+    focal        = results.get("focal_feature")
+    var_names    = [
+        "Focal" if fid == focal else name
+        for fid, name in zip(feature_ids, results["var_names"])
+    ]
+    cube         = np.array(results["corr_cube"])   # (F, F, tau_max)
+    F            = len(feature_ids)
+    step_h       = 6
+    cell_size    = 1.1   # inches per cell, keeps each subplot square
 
-    fig, axes = plt.subplots(1, tau_max, figsize=(3.5 * tau_max, 3.5))
+    fig, axes = plt.subplots(
+        1, tau_max,
+        figsize=(cell_size * F * tau_max + 0.8 * tau_max, cell_size * F),
+    )
     if tau_max == 1:
         axes = [axes]
 
     for tau_idx in range(tau_max):
         ax  = axes[tau_idx]
         mat = cube[:, :, tau_idx]
-        im  = ax.imshow(mat, cmap="RdBu_r", vmin=-1, vmax=1, aspect="auto")
+        im  = ax.imshow(mat, cmap="RdBu_r", vmin=-1, vmax=1, aspect="equal")
         ax.set_title(f"lag τ={(tau_idx+1)*step_h}h", fontsize=9)
         ax.set_xticks(range(F))
         ax.set_yticks(range(F))
         ax.set_xticklabels(var_names, rotation=45, ha="right", fontsize=7)
         ax.set_yticklabels(var_names, fontsize=7)
-        ax.set_xlabel("target j", fontsize=7)
-        ax.set_ylabel("source i", fontsize=7)
+        ax.set_xlabel("target  →  predicts what?", fontsize=7)
+        ax.set_ylabel("source  →  predicted by?", fontsize=7)
         plt.colorbar(im, ax=ax, fraction=0.046)
 
-    fig.suptitle("Cross-correlation:  corr(i[t], j[t+τ])", fontsize=10)
+    fig.suptitle("Lagged cross-correlation:  corr(source[t], target[t+τ])", fontsize=10)
     plt.tight_layout()
     plt.savefig(str(out_path), dpi=150, bbox_inches="tight")
     plt.close()
