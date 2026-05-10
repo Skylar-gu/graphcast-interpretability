@@ -4,18 +4,31 @@ Lagged dependency / causal graph from SAE feature activations.
 Two modes:
 
   --mode lagged_corr  (default)
-      Fast demo mode: pairwise lagged Pearson cross-correlations between seed
-      features only.  Works with as few as 32 timesteps (e.g. one Colab run).
-      Needs only scipy + networkx.  Produces lag_dep_graph.png in ~5 seconds.
+      Pairwise lagged Pearson cross-correlations.  Without --screen_all, uses
+      only --include_features.  With --screen_all, loads all 4096 features, screens
+      each against the focal feature by max |r| across lags, selects the top
+      --n_top, then runs full pairwise on focal + selected.
+      Needs only scipy + networkx.  Produces lag_dep_graph.png.
 
   --mode pcmciplus
       Full cluster mode: MI screening over all features + PCMCI+ + ANM
       orientation.  Needs tigramite + causal-learn.  Requires ~750+ timesteps.
 
-Usage — demo (32 timesteps, Colab output):
+Usage — screen all features (lagged_corr, 32 timesteps):
     python scripts/causal_graph.py \\
         --focal_feature 3243 \\
-        --seed_features 117,402,911,2088 \\
+        --screen_all \\
+        --n_top 20 \\
+        --tau_max 4 \\
+        --mode lagged_corr \\
+        --sae_id layer8_k32_d4096 \\
+        --data_dir viz/data \\
+        --out_dir results/causal
+
+Usage — include specific features (32 timesteps):
+    python scripts/dependency_graph.py \\
+        --focal_feature 3243 \\
+        --include_features 117,402,911,2088 \\
         --tau_max 4 \\
         --mode lagged_corr \\
         --sae_id layer8_k32_d4096 \\
@@ -23,21 +36,15 @@ Usage — demo (32 timesteps, Colab output):
         --out_dir results/causal
 
 Usage — cluster (1464 timesteps, full PCMCI+):
-    python scripts/causal_graph.py \\
+    python scripts/dependency_graph.py \\
         --focal_feature 3243 \\
-        --seed_features 117,402,911,2088 \\
+        --include_features 117,402,911,2088 \\
         --n_mi_candidates 20 \\
         --tau_max 4 \\
         --mode pcmciplus \\
         --sae_id layer8_k32_d4096 \\
         --data_dir viz/data \\
         --out_dir results/causal
-
-Expected dependency structure (Hurricane Ida case):
-    Feature 117 (moist inflow)  ─6h→  Feature 3243 (hurricane-core)
-    Feature 402 (low-pressure)  ─6h→  Feature 3243
-    Feature 911 (warm-core)    ─12h→  Feature 3243
-    Feature 3243               ─6h→  Feature 2088 (outflow)
 """
 
 from __future__ import annotations
@@ -121,6 +128,93 @@ def extract_timeseries(
     return series, timestamps
 
 
+def extract_all_timeseries(
+    sae_id: str,
+    data_dir: Path,
+    aggregation: str = "max",
+) -> tuple[np.ndarray, list[str], int]:
+    """
+    Load time series for every feature in the SAE dictionary.
+
+    Uses a scatter-max over (n_nodes × k_active) per timestep instead of
+    per-feature masking, so cost is O(T × n_nodes × k) regardless of
+    how many features exist.
+
+    Returns (T, n_features) float32, list of timestamp strings, n_features.
+    """
+    import zarr
+    zarr_root  = data_dir / "activations" / sae_id
+    idx_store  = zarr.open(str(zarr_root / "indices.zarr"), mode="r")
+    val_store  = zarr.open(str(zarr_root / "values.zarr"), mode="r")
+    timestamps = list(np.load(str(zarr_root / "timestamps.npy"), allow_pickle=True))
+
+    n_time     = idx_store.shape[0]
+    n_features = int(idx_store[:].max()) + 1   # derive from data; typically 4096
+
+    series = np.zeros((n_time, n_features), dtype=np.float32)
+
+    print(f"Extracting all {n_features} features over {n_time} timesteps...")
+    for t in range(n_time):
+        if t % 10 == 0:
+            print(f"  {t}/{n_time}", end="\r", flush=True)
+        idxs = idx_store[t].ravel().astype(np.int32)   # (n_nodes*k,)
+        vals = val_store[t].ravel()                     # (n_nodes*k,)
+
+        if aggregation == "max":
+            np.maximum.at(series[t], idxs, vals)
+        elif aggregation == "mean":
+            counts = np.bincount(idxs, minlength=n_features).astype(np.float32)
+            np.add.at(series[t], idxs, vals)
+            nonzero = counts > 0
+            series[t, nonzero] /= counts[nonzero]
+        elif aggregation == "p95":
+            # p95 can't be done with scatter — fall back to per-feature
+            for f in range(n_features):
+                mask = idxs == f
+                if mask.any():
+                    series[t, f] = np.percentile(vals[mask], 95)
+
+    print(f"\nDone. Shape: {series.shape}")
+    return series, timestamps, n_features
+
+
+def screen_by_lagged_corr(
+    series: np.ndarray,    # (T, N)
+    focal_col: int,
+    tau_max: int,
+    n_top: int,
+) -> tuple[list[int], np.ndarray]:
+    """
+    For each feature j ≠ focal, compute max_τ |r(focal[t-τ], j[t])| and
+    max_τ |r(j[t-τ], focal[t])| (both directions), take the larger of the two
+    as the relevance score.  Return the top-n_top feature column indices and
+    the full score array.
+
+    Vectorised: one matrix multiply per lag, O(T × N) per lag step.
+    """
+    T, N   = series.shape
+    focal  = series[:, focal_col]
+    scores = np.zeros(N, dtype=np.float64)
+
+    for tau in range(1, tau_max + 1):
+        x_src = focal[:-tau]          # focal predicts others   (focal → j)
+        Y_tgt = series[tau:]          # (T-tau, N)
+        x_tgt = focal[tau:]           # others predict focal    (j → focal)
+        Y_src = series[:-tau]         # (T-tau, N)
+
+        for x, Y in [(x_src, Y_tgt), (x_tgt, Y_src)]:
+            x_z   = x - x.mean()
+            Y_z   = Y - Y.mean(axis=0)
+            denom = np.sqrt((x_z @ x_z) * (Y_z * Y_z).sum(axis=0)) + 1e-8
+            r     = (x_z @ Y_z) / denom
+            scores = np.maximum(scores, np.abs(r))
+
+    scores[focal_col] = -1.0   # exclude focal itself
+
+    top_cols = np.argsort(scores)[::-1][:n_top].tolist()
+    return top_cols, scores
+
+
 # ══════════════════════════════════════════════════════════════════════════════
 # MODE 1: Lagged cross-correlation (fast demo, no tigramite)
 # ══════════════════════════════════════════════════════════════════════════════
@@ -170,21 +264,26 @@ def run_lagged_corr(
                 continue
             corr_cube[i, j] = lagged_pearson(series[:, i], series[:, j], tau_max)
 
-    # Find best lag for each directed pair
+    # For each unordered pair {i, j}, keep only the direction with higher |r|.
+    # This prevents drawing both i→j and j→i when both pass the threshold.
     edges = []
     for i in range(F):
-        for j in range(F):
-            if i == j:
-                continue
-            best_tau_idx = np.argmax(np.abs(corr_cube[i, j]))
-            best_r       = float(corr_cube[i, j, best_tau_idx])
-            best_lag     = int(best_tau_idx + 1)       # 1-indexed steps
-            if abs(best_r) >= threshold:
+        for j in range(i + 1, F):
+            idx_ij = np.argmax(np.abs(corr_cube[i, j]))
+            r_ij   = float(corr_cube[i, j, idx_ij])
+            idx_ji = np.argmax(np.abs(corr_cube[j, i]))
+            r_ji   = float(corr_cube[j, i, idx_ji])
+
+            if abs(r_ij) >= threshold or abs(r_ji) >= threshold:
+                if abs(r_ij) >= abs(r_ji):
+                    src, tgt, best_r, best_lag = i, j, r_ij, int(idx_ij + 1)
+                else:
+                    src, tgt, best_r, best_lag = j, i, r_ji, int(idx_ji + 1)
                 edges.append({
-                    "src": feature_ids[i],
-                    "tgt": feature_ids[j],
-                    "src_name": var_names[i],
-                    "tgt_name": var_names[j],
+                    "src": feature_ids[src],
+                    "tgt": feature_ids[tgt],
+                    "src_name": var_names[src],
+                    "tgt_name": var_names[tgt],
                     "lag_steps": best_lag,
                     "lag_hours": best_lag * step_h,
                     "r": round(best_r, 4),
@@ -287,7 +386,7 @@ def plot_lag_graph(
 
     fig, ax = plt.subplots(figsize=(9, 7))
     ax.set_title(
-        f"Lagged Dependency Graph — focal: F{focal_feature} "
+        f"Lagged Dependency Graph \nFocal: F{focal_feature} "
         f"(threshold |r|≥{results['threshold']}, τ_max={results['tau_max']*6}h)",
         fontsize=11,
     )
@@ -304,11 +403,12 @@ def plot_lag_graph(
     # Draw edges colored by |r|
     edge_list = list(G.edges(data=True))
     if edge_list:
-        r_vals = np.array([abs(d["r"]) for _, _, d in edge_list])
-        r_norm = (r_vals - r_vals.min()) / (r_vals.max() - r_vals.min() + 1e-8)
-        cmap   = plt.cm.Oranges
-        colors = [cmap(0.4 + 0.6 * v) for v in r_norm]
-        widths = [1.5 + 3.0 * v for v in r_norm]
+        r_vals   = np.array([abs(d["r"]) for _, _, d in edge_list])
+        r_min, r_max = r_vals.min(), r_vals.max()
+        r_norm   = (r_vals - r_min) / (r_max - r_min + 1e-8)
+        cmap     = plt.cm.Oranges
+        colors   = [cmap(0.4 + 0.6 * v) for v in r_norm]
+        widths   = [1.5 + 3.0 * v for v in r_norm]
 
         for (src, tgt, data), color, width in zip(edge_list, colors, widths):
             nx.draw_networkx_edges(
@@ -316,20 +416,35 @@ def plot_lag_graph(
                 edgelist=[(src, tgt)],
                 edge_color=[color], width=width,
                 arrows=True, arrowsize=20,
-                connectionstyle="arc3,rad=0.12",
                 min_source_margin=25, min_target_margin=25,
             )
 
-        edge_labels = {(e["src"], e["tgt"]): f'{e["lag_hours"]}h\nr={e["r"]:+.2f}'
+        edge_labels = {(e["src"], e["tgt"]): f'{e["lag_hours"]}h'
                        for e in results["edges"]}
         nx.draw_networkx_edge_labels(
             G, pos, edge_labels=edge_labels, ax=ax,
-            font_size=7, label_pos=0.35,
+            font_size=8, label_pos=0.5, rotate=True,
+            bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.8),
         )
 
-    focal_patch = mpatches.Patch(color="#FF8C00", label=f"F{focal_feature} (focal)")
-    seed_patch  = mpatches.Patch(color="#4A90D9", label="Seed features")
-    ax.legend(handles=[focal_patch, seed_patch], loc="lower right", fontsize=8)
+        # Colorbar for |r| (edge color + width)
+        sm = plt.cm.ScalarMappable(
+            cmap=cmap,
+            norm=plt.Normalize(vmin=r_min - (r_max - r_min) * 0.6 / 0.6, vmax=r_max),
+        )
+        # Remap so bar spans the 0.4–1.0 range we actually use
+        sm = plt.cm.ScalarMappable(
+            cmap=plt.cm.Oranges,
+            norm=plt.Normalize(vmin=r_min, vmax=r_max),
+        )
+        sm.set_array([])
+        cb = fig.colorbar(sm, ax=ax, fraction=0.03, pad=0.02, aspect=20)
+        cb.set_label("|r|  (edge color & width)", fontsize=8)
+        cb.ax.tick_params(labelsize=7)
+
+    focal_patch = mpatches.Patch(color="#FF8C00", label="Focal feature")
+    peer_patch  = mpatches.Patch(color="#4A90D9", label="Correlated features")
+    ax.legend(handles=[focal_patch, peer_patch], loc="lower right", fontsize=8)
     ax.axis("off")
 
     plt.tight_layout()
@@ -517,8 +632,13 @@ def main() -> None:
                    choices=["lagged_corr", "pcmciplus"],
                    help="lagged_corr=fast demo (32 ts); pcmciplus=full cluster (1464 ts)")
     p.add_argument("--focal_feature",    type=int, default=3243)
-    p.add_argument("--seed_features",    default="117,402,911,2088",
-                   help="Comma-separated feature IDs (always included)")
+    p.add_argument("--include_features",  default="",
+                   help="Comma-separated feature IDs to always include (empty = auto-only)")
+    p.add_argument("--screen_all",       action="store_true",
+                   help="[lagged_corr] Load all features, screen by lagged r vs focal, "
+                        "then run pairwise on focal + top --n_top")
+    p.add_argument("--n_top",            type=int, default=20,
+                   help="[lagged_corr + --screen_all] How many top-scoring features to keep")
     p.add_argument("--n_mi_candidates",  type=int, default=20,
                    help="[pcmciplus only] Additional features from MI screening")
     p.add_argument("--tau_max",          type=int, default=4,
@@ -541,7 +661,7 @@ def main() -> None:
     out_dir  = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    seed_features = [int(x) for x in args.seed_features.split(",") if x.strip()]
+    seed_features = [int(x) for x in args.include_features.split(",") if x.strip()]
     focal         = args.focal_feature
 
     # Load feature labels from catalog if available
@@ -555,17 +675,51 @@ def main() -> None:
 
     # ── Lagged correlation mode ───────────────────────────────────────────────
     if args.mode == "lagged_corr":
-        feature_ids = list(dict.fromkeys([focal] + seed_features))
+        print(f"Mode: lagged_corr  |  threshold |r| >= {args.threshold}  |  tau_max = {args.tau_max} steps ({args.tau_max*6}h)")
+
+        if args.screen_all:
+            # Pass 1: load all features, screen vs focal
+            print(f"\n=== Pass 1: load all features ===")
+            all_series, timestamps, n_features = extract_all_timeseries(
+                args.sae_id, data_dir, args.aggregation
+            )
+            focal_col = focal   # feature id == column index since we loaded 0..n_features-1
+
+            print(f"\n=== Pass 2: lagged-r screening (all {n_features} features vs F{focal}) ===")
+            top_cols, scores = screen_by_lagged_corr(
+                all_series, focal_col=focal_col,
+                tau_max=args.tau_max, n_top=args.n_top,
+            )
+            # Save screening scores for inspection
+            score_path = out_dir / "screening_scores.json"
+            with open(score_path, "w") as f:
+                json.dump({
+                    "focal": focal,
+                    "tau_max": args.tau_max,
+                    "top_features": top_cols,
+                    "top_scores": [round(float(scores[c]), 4) for c in top_cols],
+                    "all_scores": [round(float(s), 4) for s in scores],
+                }, f, indent=2)
+            print(f"Top-{args.n_top} features: {top_cols}")
+            print(f"Scores:        {[round(float(scores[c]), 4) for c in top_cols]}")
+
+            # Combine: focal + any forced seeds + top screened
+            selected_ids = list(dict.fromkeys([focal] + seed_features + top_cols))
+            series       = all_series[:, selected_ids]
+        else:
+            # Legacy: only use the explicitly provided seed features
+            if not seed_features:
+                print("ERROR: provide --include_features or use --screen_all")
+                sys.exit(1)
+            selected_ids = list(dict.fromkeys([focal] + seed_features))
+            series, timestamps = extract_timeseries(
+                args.sae_id, selected_ids, data_dir, args.aggregation
+            )
+
+        feature_ids = selected_ids
         var_names   = [labels.get(f, f"F{f}") for f in feature_ids]
-
-        print(f"Mode: lagged_corr  |  features: {feature_ids}")
-        print(f"Threshold |r| >= {args.threshold}  |  tau_max = {args.tau_max} steps ({args.tau_max*6}h)")
-
-        series, timestamps = extract_timeseries(
-            args.sae_id, feature_ids, data_dir, args.aggregation
-        )
         T = series.shape[0]
-        print(f"T = {T} timesteps")
+        print(f"\nRunning pairwise lagged_corr on {len(feature_ids)} features, T={T} timesteps")
 
         results = run_lagged_corr(
             series, feature_ids, var_names,
@@ -582,6 +736,8 @@ def main() -> None:
         print("  lag_corr_heatmap.png — correlation heatmap by lag")
         print("  lag_corr_results.json")
         print("  validation.txt")
+        if args.screen_all:
+            print("  screening_scores.json — per-feature max |r| vs focal")
         return
 
     # ── PCMCI+ mode ───────────────────────────────────────────────────────────
@@ -664,3 +820,17 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+''' Sample run command:
+.venv/bin/python scripts/dependency_graph.py \
+       --focal_feature 3243 \
+       --screen_all \
+       --n_top 5 \
+       --tau_max 4 \
+       --threshold 0.3 \
+       --mode lagged_corr \
+       --sae_id layer8_k32_d4096 \
+       --data_dir viz/data \
+       --out_dir results/causal 2>&1 | tail -8
+'''
