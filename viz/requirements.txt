@@ -1,0 +1,7 @@
+# Additional packages required by viz/ (on top of the root requirements.txt)
+streamlit>=1.36
+plotly>=5.22
+pyarrow>=16.0       # pandas parquet I/O
+huggingface-hub>=0.23
+tigramite>=5.2
+causal-learn>=0.1.3
