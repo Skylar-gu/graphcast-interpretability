@@ -57,6 +57,15 @@ def build_sae(state: dict, k_active: int, unit_norm_decoder: bool, device: str) 
 
 # ── Encoding ─────────────────────────────────────────────────────────────────
 
+def load_acts(path) -> np.ndarray:
+    """Load a .npy activation file, converting bfloat16 void dtype to float32."""
+    import ml_dtypes
+    a = np.load(path)
+    if a.dtype.kind == 'V' and a.dtype.itemsize == 2:
+        a = a.view(ml_dtypes.bfloat16).astype(np.float32)
+    return a
+
+
 def encode_file(acts: np.ndarray, model: SAE, device: str,
                 batch: int = 8192) -> tuple[np.ndarray, np.ndarray]:
     """Return top-k (indices [N,K] int16, values [N,K] float32) for a .npy file."""
@@ -142,7 +151,7 @@ def main() -> None:
     print(f"Found {len(act_files)} activation files")
 
     # Peek at first file
-    peek = np.load(act_files[0])
+    peek = load_acts(act_files[0])
     if peek.ndim == 3 and peek.shape[1] == 1:
         peek = peek[:, 0, :]
     n_nodes = peek.shape[0]
@@ -174,7 +183,7 @@ def main() -> None:
     for t, f in enumerate(act_files):
         ts = parse_timestamp(f.name)
         print(f"  [{t + 1}/{n_time}] {ts}", flush=True)
-        acts = np.load(f)
+        acts = load_acts(f)
         if acts.ndim == 3 and acts.shape[1] == 1:
             acts = acts[:, 0, :]
         idxs, vals = encode_file(acts, model, args.device)

@@ -21,10 +21,18 @@ import zarr
 
 
 KNOWN_LABELS: dict[int, str] = {
-    3243: "Tropical cyclone / hurricane tracker",
+    342: "Activates in early morning (arid regions)",
+    3103: "Activates in early morning (ocean basins)",
+    356: "Activates in rainforest regions (Amazon, Indonesia, Africa) during daytime",
+    655:  "Seasonal heating (desert regions)",
+    1437: "Antarctic sea-ice extent",
+    1710: "Arctic sea-ice extent",
     1820: "Atmospheric river / IVT plume",
+    3243: "Tropical cyclone / hurricane tracker",
+    3614: "High rainfall anomaly tracker (closely follows the ITCZ)",
+    2359: "Low rainfall anomaly tracker (esp. in dry ocean regions)",
 }
-
+# run source .venv/bin/activate && python viz/compute_stats.py --sae_id layer8_k32_d4096 --data_dir viz/data to regenerate parquet if list is updated
 
 def compute_stats_batch(
     indices: np.ndarray,   # (T, N, K) int16

@@ -90,6 +90,13 @@ _default_sae = qp.get("sae_id", list(registry.keys())[0])
 _default_feature = int(qp.get("feature_id", 3243))
 _default_t = int(qp.get("t_idx", 0))
 
+def _atlas_row_selected():
+    """Callback: fires when atlas table row is clicked, before the rerun."""
+    rows = st.session_state.get("atlas_df_widget", {}).get("selection", {}).get("rows", [])
+    fid_list = st.session_state.get("_atlas_fid_list", [])
+    if rows and rows[0] < len(fid_list):
+        st.session_state["feature_id_input"] = fid_list[rows[0]]
+
 # ═══════════════════════════════════════════════════════════════════════════════
 # SIDEBAR — shared controls
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -127,17 +134,24 @@ with st.sidebar:
         key="feature_id_input",
     )
 
-    # Quick-jump to named features
+    # Known-feature selector — no key so index always controls displayed value
     if not catalog.empty:
-        named = catalog[catalog["candidate_label"] != ""][["feature_id", "candidate_label"]]
+        named = catalog[catalog["candidate_label"] != ""][["feature_id", "candidate_label"]] \
+                    .sort_values("feature_id")
         if not named.empty:
-            options = ["— jump to known feature —"] + [
-                f"{int(r.feature_id)}: {r.candidate_label}"
-                for _, r in named.iterrows()
+            kf_options = ["—"] + [
+                f"{int(r.feature_id)}: {r.candidate_label}" for _, r in named.iterrows()
             ]
-            jump = st.selectbox("Known features", options, index=0)
-            if jump != options[0]:
-                feature_id = int(jump.split(":")[0])
+            # Reflect current feature_id in the selectbox if it's a known feature
+            _cur = next((o for o in kf_options if o.startswith(f"{feature_id}:")), "—")
+            _kf_idx = kf_options.index(_cur)
+            kf_jump = st.selectbox("Known features", kf_options, index=_kf_idx)
+            if kf_jump != "—":
+                new_fid = int(kf_jump.split(":")[0])
+                if new_fid != feature_id:
+                    st.session_state["feature_id_input"] = new_fid
+                    st.rerun()
+                feature_id = new_fid
 
     st.divider()
 
@@ -248,7 +262,7 @@ with tab_inspector:
             )
 
             top_ts = row.get("top_timestamps", [])
-            if top_ts:
+            if top_ts is not None and len(top_ts) > 0:
                 st.write("**Top activation timestamps:**")
                 for ts_ex in top_ts:
                     st.code(ts_ex, language=None)
@@ -281,14 +295,18 @@ with tab_inspector:
         name=f"Feature {feature_id}",
         hovertemplate="<b>%{x}</b><br>Mean activation: %{y:.4f}<extra></extra>",
     ))
-    # Vertical line for current selection
-    fig_ts.add_vline(
-        x=timestamp,
-        line_dash="dash",
-        line_color="steelblue",
-        annotation_text="viewing",
-        annotation_position="top right",
-        annotation_font_size=10,
+    # Vertical line for current selection (add_vline fails on categorical axes in plotly 6)
+    fig_ts.add_shape(
+        type="line",
+        x0=str(timestamp), x1=str(timestamp),
+        y0=0, y1=1,
+        xref="x", yref="paper",
+        line=dict(dash="dash", color="steelblue", width=1.5),
+    )
+    fig_ts.add_annotation(
+        x=str(timestamp), y=1.02, yref="paper",
+        text="viewing", showarrow=False,
+        font=dict(size=10, color="steelblue"), xanchor="left",
     )
     fig_ts.update_layout(
         xaxis_title="Timestamp",
@@ -307,9 +325,7 @@ with tab_inspector:
 
 with tab_atlas:
     st.header("Feature Atlas")
-    st.caption(
-        "Sortable catalog of all SAE features. Click a row to jump to it in the inspector."
-    )
+    st.caption("Sortable catalog of all SAE features.")
 
     if catalog.empty:
         st.warning(
@@ -354,10 +370,17 @@ with tab_atlas:
             "activation_frequency", "mean_activation", "max_activation",
             "artifact_score", "dead",
         ]
+        atlas_df = df[display_cols].reset_index(drop=True)
+        # Store row→feature_id mapping so the callback can look it up
+        st.session_state["_atlas_fid_list"] = atlas_df["feature_id"].tolist()
+
         st.dataframe(
-            df[display_cols].reset_index(drop=True),
+            atlas_df,
+            key="atlas_df_widget",
             use_container_width=True,
             height=480,
+            on_select=_atlas_row_selected,
+            selection_mode="single-row",
             column_config={
                 "feature_id": st.column_config.NumberColumn("ID", width="small"),
                 "activation_frequency": st.column_config.NumberColumn(
@@ -404,7 +427,7 @@ KNOWN_EVENTS: dict[str, dict] = {
         "features": [3243],
         "note": (
             "Feature 3243 activates along the hurricane track. "
-            "Intervention experiments show causal control over storm intensity."
+            "To add: Intervention experiments to test for control over storm intensity."
         ),
     },
     "Pineapple Express — 2019-02-14": {
@@ -422,7 +445,6 @@ with tab_events:
     st.header("Event Browser")
     st.caption(
         "Inspect features during known meteorological events. "
-        "Timestamps outside your precomputed range will be unavailable."
     )
 
     event_name = st.selectbox("Event", list(KNOWN_EVENTS.keys()))
@@ -464,7 +486,7 @@ with tab_events:
                 lat_bounds=(ev_lat_min, ev_lat_max),
                 feature_id=ev_feat,
                 timestamp=ev_ts,
-                colormap="YlOrRd",
+                colormap="GnBu",
             )
             st.pyplot(ev_fig, use_container_width=True)
         except Exception as e:
@@ -481,10 +503,10 @@ with tab_events:
         if ev_t_indices and not catalog.empty:
             # Use top_timestamps overlap as a proxy for event relevance
             def _event_relevance(row):
-                return sum(
-                    1 for ts_ex in (row.get("top_timestamps") or [])
-                    if ts_ex in event["timestamps"]
-                )
+                top_ts = row.get("top_timestamps")
+                if top_ts is None or len(top_ts) == 0:
+                    return 0
+                return sum(1 for ts_ex in top_ts if ts_ex in event["timestamps"])
             ev_cat = catalog.copy()
             ev_cat["event_relevance"] = ev_cat.apply(_event_relevance, axis=1)
             ev_top = (
