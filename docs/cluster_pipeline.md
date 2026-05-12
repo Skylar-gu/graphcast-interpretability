@@ -107,6 +107,11 @@ EOF
 
 # Install this package
 pip install -e .
+
+# Verify the editable install is importable (fails silently on some systems)
+python -c "from graphcast_interpretability.model import load_sae_params_from_torch; print('graphcast_interpretability ok')"
+# If that fails, force-reinstall:
+#   pip install -e . --force-reinstall
 ```
 
 ---
@@ -145,6 +150,19 @@ done
 ```
 
 **If the job is interrupted**, just re-run the same command — completed timesteps are skipped automatically.
+
+**For ablation / intervention runs** (feature ablation or steering via `--ablate_feature` /
+`--steer_feature`), the script will auto-download the SAE checkpoint (~200 MB) on first use.
+Pre-cache it before a long run to avoid a mid-job download:
+
+```bash
+python -c "
+from huggingface_hub import hf_hub_download
+hf_hub_download('theodoremacmillan/sae-graphcast-k32-lat4096-lay08',
+                'sae_step0334221_t2300M.pt', local_dir='data/sae_cache')
+print('SAE checkpoint cached')
+"
+```
 
 **Disk check before running:**
 
@@ -192,7 +210,7 @@ The script supports two modes:
 No tigramite needed. Runs in seconds. Good for a 2-day demo.
 
 ```bash
-python scripts/causal_graph.py \
+python scripts/dependency_graph.py \
     --mode lagged_corr \
     --focal_feature 3243 \
     --seed_features 117,402,911,2088 \
@@ -218,7 +236,7 @@ not causation. Spurious correlations from shared forcing are not removed.
 ### 5b. Full PCMCI+ causal graph (cluster — needs 1,464 timesteps)
 
 ```bash
-python scripts/causal_graph.py \
+python scripts/dependency_graph.py \
     --mode pcmciplus \
     --focal_feature 3243 \
     --seed_features 117,402,911,2088 \

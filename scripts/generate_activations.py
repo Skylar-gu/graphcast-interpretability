@@ -19,8 +19,14 @@ import argparse
 import dataclasses
 import functools
 import os
+import sys
 import time
 from pathlib import Path
+
+# Ensure src/ is on the path regardless of editable-install .pth loading
+_SRC = Path(__file__).parent.parent / "src"
+if str(_SRC) not in sys.path:
+    sys.path.insert(0, str(_SRC))
 
 import numpy as np
 import xarray as xr
@@ -177,14 +183,27 @@ def load_graphcast_from_gcs():
 
 # ── GraphCast JIT forward ─────────────────────────────────────────────────────
 
-def build_jit_forward(ckpt, stats):
+def build_jit_forward(ckpt, stats,
+                      mesh_sae_params=None,
+                      mesh_sae_steps=None,
+                      mesh_sae_node_sets=None,
+                      mesh_sae_alpha=None):
     model_config = ckpt.model_config
     task_config  = ckpt.task_config
     params       = ckpt.params
     state        = {}
 
     def construct(mc, tc):
-        pred = graphcast.GraphCast(mc, tc)
+        # SAEInjector is an hk.Module — must be constructed inside hk.transform
+        injector = None
+        if mesh_sae_params is not None:
+            from graphcast.deep_typed_graph_net import SAEInjector
+            injector = SAEInjector(mesh_sae_params)
+        pred = graphcast.GraphCast(mc, tc,
+                                   mesh_sae_injector=injector,
+                                   mesh_sae_steps=mesh_sae_steps,
+                                   mesh_sae_node_sets=mesh_sae_node_sets,
+                                   mesh_sae_alpha=mesh_sae_alpha)
         pred = casting.Bfloat16Cast(pred)
         pred = normalization.InputsAndResiduals(
             pred,
@@ -276,6 +295,19 @@ def main() -> None:
     p.add_argument("--ckpt_cache", default="data/graphcast_cache",
                    help="Local cache for GraphCast checkpoint and stats")
     p.add_argument("--layer",     type=int, default=8)
+
+    # ── SAE intervention (optional) ───────────────────────────────────────
+    p.add_argument("--ablate_feature", type=int, default=None,
+                   help="SAE feature ID to zero-ablate during the forward pass")
+    p.add_argument("--steer_feature",  type=int, default=None,
+                   help="SAE feature ID to steer during the forward pass")
+    p.add_argument("--steer_strength", type=float, default=1.0,
+                   help="Steering multiplier added to alpha for --steer_feature "
+                        "(e.g. 2.0 triples the feature, -1.0 ablates it)")
+    p.add_argument("--sae_ckpt", default=None,
+                   help="Path to SAE .pt checkpoint (default: auto-download from HuggingFace)")
+    p.add_argument("--sae_cache", default="data/sae_cache",
+                   help="Directory for cached SAE checkpoint")
     args = p.parse_args()
 
     if args.preset:
@@ -311,7 +343,63 @@ def main() -> None:
 
     # ── GraphCast (cached locally) ─────────────────────────────────────────
     ckpt, stats = load_graphcast_cached(args.ckpt_cache)
-    run_forward, task_config = build_jit_forward(ckpt, stats)
+
+    # ── SAE intervention (optional) ───────────────────────────────────────
+    sae_params     = None
+    mesh_sae_alpha = None
+    intervening    = args.ablate_feature is not None or args.steer_feature is not None
+
+    if intervening:
+        import jax.numpy as jnp
+        from graphcast_interpretability.model import load_sae_params_from_torch
+
+        # Resolve SAE checkpoint
+        sae_ckpt_path = args.sae_ckpt
+        if sae_ckpt_path is None:
+            from huggingface_hub import hf_hub_download
+            sae_ckpt_path = hf_hub_download(
+                "theodoremacmillan/sae-graphcast-k32-lat4096-lay08",
+                "sae_step0334221_t2300M.pt",
+                local_dir=args.sae_cache,
+            )
+        print(f"SAE checkpoint: {sae_ckpt_path}")
+
+        sae_params = load_sae_params_from_torch(
+            sae_ckpt_path, unit_norm_decoder=True, k_active=32
+        )
+        # Cast to bfloat16 to match GraphCast's compute dtype — SAEInjector output
+        # inherits the dtype of its weights, and Bfloat16Cast rejects float32 outputs.
+        sae_params = dataclasses.replace(
+            sae_params,
+            enc_w=jnp.asarray(sae_params.enc_w, dtype=jnp.bfloat16),
+            dec_w=jnp.asarray(sae_params.dec_w, dtype=jnp.bfloat16),
+            b_pre=jnp.asarray(sae_params.b_pre, dtype=jnp.bfloat16),
+        )
+
+        # Build alpha: zeros = no change; set target feature(s)
+        # Must be bfloat16 to match GraphCast's compute dtype — float32 alpha
+        # promotes intermediate tensors and Bfloat16Cast rejects float32 output.
+        latent = sae_params.enc_w.shape[1]
+        alpha  = jnp.zeros(latent, dtype=jnp.bfloat16)
+
+        if args.ablate_feature is not None:
+            alpha = alpha.at[args.ablate_feature].set(-1.0)
+            print(f"Intervention: ablate feature {args.ablate_feature} (alpha=-1)")
+
+        if args.steer_feature is not None:
+            alpha = alpha.at[args.steer_feature].add(args.steer_strength)
+            print(f"Intervention: steer feature {args.steer_feature} "
+                  f"(alpha+={args.steer_strength})")
+
+        mesh_sae_alpha = alpha
+
+    run_forward, task_config = build_jit_forward(
+        ckpt, stats,
+        mesh_sae_params=sae_params,
+        mesh_sae_steps=[args.layer],
+        mesh_sae_node_sets=["mesh_nodes"],
+        mesh_sae_alpha=mesh_sae_alpha,
+    )
 
     # ── Activation manager ────────────────────────────────────────────────
     am = get_activation_manager()
