@@ -25,20 +25,20 @@ Usage — screen all features (lagged_corr, 32 timesteps):
         --data_dir viz/data \\
         --out_dir results/dep_graph
 
-Usage — include specific features (32 timesteps):
+Usage — include specific features:
     python scripts/dependency_graph.py \\
         --focal_feature 3243 \\
-        --include_features 117,402,911,2088 \\
+        --include_features 3817,878,1232 \\
         --tau_max 4 \\
         --mode lagged_corr \\
         --sae_id layer8_k32_d4096 \\
         --data_dir viz/data \\
         --out_dir results/dep_graph
 
-Usage — cluster (1464 timesteps, full PCMCI+):
+Usage — cluster (full PCMCI+):
     python scripts/dependency_graph.py \\
         --focal_feature 3243 \\
-        --include_features 117,402,911,2088 \\
+        --include_features 3817,878,1232 \\
         --n_mi_candidates 20 \\
         --tau_max 4 \\
         --mode pcmciplus \\
@@ -59,19 +59,16 @@ import pandas as pd
 
 FEATURE_LABELS: dict[int, str] = {
     3243: "TC-core",
-    117:  "moist-inflow",
-    402:  "low-pressure",
-    911:  "warm-core",
-    2088: "outflow",
 }
 
-# (source_feature, target_feature, expected_lag_steps, description)
-KNOWN_EDGES: list[tuple[int, int, int, str]] = [
-    (117,  3243, 1, "moist inflow → TC core, 6h"),
-    (402,  3243, 1, "low-pressure → TC core, 6h"),
-    (911,  3243, 2, "warm-core → TC intensification, 12h"),
-    (3243, 2088, 1, "TC core → upper outflow, 6h"),
-]
+
+def _date_suffix(timestamps: list[str]) -> str:
+    """Return 'ddmmyyyy_ddmmyyyy' from first and last timestamp strings."""
+    def _fmt(ts: str) -> str:
+        date = ts.split("T")[0]
+        y, m, d = date.split("-")
+        return f"{d}{m}{y}"
+    return f"{_fmt(timestamps[0])}_{_fmt(timestamps[-1])}"
 
 
 def _require(pkg_name: str, import_name: str | None = None):
@@ -113,8 +110,8 @@ def extract_timeseries(
         vals = val_store[t]   # (n_nodes, k_active)
 
         for feat_id, col in feat_pos.items():
-            mask      = idxs == feat_id
-            node_vals = vals[mask.any(axis=-1)]
+            mask      = idxs == feat_id          # (n_nodes, k_active)
+            node_vals = vals[mask]               # only slots where this feature is active
             if node_vals.size == 0:
                 continue
             if aggregation == "max":
@@ -197,10 +194,10 @@ def screen_by_lagged_corr(
     scores = np.zeros(N, dtype=np.float64)
 
     for tau in range(1, tau_max + 1):
-        x_src = focal[:-tau]          # focal predicts others   (focal → j)
-        Y_tgt = series[tau:]          # (T-tau, N)
-        x_tgt = focal[tau:]           # others predict focal    (j → focal)
-        Y_src = series[:-tau]         # (T-tau, N)
+        x_src = focal[:-tau]
+        Y_tgt = series[tau:]
+        x_tgt = focal[tau:]
+        Y_src = series[:-tau]
 
         for x, Y in [(x_src, Y_tgt), (x_tgt, Y_src)]:
             x_z   = x - x.mean()
@@ -233,6 +230,107 @@ def lagged_pearson(x: np.ndarray, y: np.ndarray, max_lag: int) -> np.ndarray:
         r, _ = pearsonr(x[:-tau], y[tau:])
         corrs[tau - 1] = r if np.isfinite(r) else 0.0
     return corrs
+
+
+def analyze_focal_edges(
+    series: np.ndarray,       # (T, F)
+    feature_ids: list[int],
+    var_names: list[str],
+    focal_feature: int,
+    tau_max: int,
+    step_h: int = 6,
+) -> list[dict]:
+    """
+    For each non-focal feature compute corr(focal[t], feat[t+τ]) and
+    corr(feat[t], focal[t+τ]) over τ=1..tau_max.  Keep the dominant direction.
+
+    Explicitly flags features whose peak lag falls at 36 h or 48 h and
+    whether that peak exceeds the correlation at 24 h.
+
+    Returns list of records sorted by peak |r| descending.
+    """
+    focal_col = feature_ids.index(focal_feature)
+    focal_ts  = series[:, focal_col]
+    records: list[dict] = []
+
+    for i, (fid, name) in enumerate(zip(feature_ids, var_names)):
+        if fid == focal_feature:
+            continue
+
+        feat_ts = series[:, i]
+        r_f2o   = lagged_pearson(focal_ts, feat_ts, tau_max)  # focal leads feat
+        r_o2f   = lagged_pearson(feat_ts, focal_ts, tau_max)  # feat leads focal
+
+        pk_f2o = int(np.argmax(np.abs(r_f2o)))
+        pk_o2f = int(np.argmax(np.abs(r_o2f)))
+
+        if abs(r_f2o[pk_f2o]) >= abs(r_o2f[pk_o2f]):
+            dominant_dir, r_profile, peak_idx = "focal→feat", r_f2o, pk_f2o
+        else:
+            dominant_dir, r_profile, peak_idx = "feat→focal", r_o2f, pk_o2f
+
+        peak_lag_h = (peak_idx + 1) * step_h
+        lags_h     = {(tau + 1) * step_h: float(r_profile[tau]) for tau in range(tau_max)}
+        r24 = lags_h.get(24)
+        r36 = lags_h.get(36)
+        r48 = lags_h.get(48)
+
+        records.append({
+            "feature_id":      fid,
+            "name":            name,
+            "dominant_dir":    dominant_dir,
+            "peak_r":          round(float(r_profile[peak_idx]), 4),
+            "peak_lag_h":      peak_lag_h,
+            "peak_beyond_24h": peak_lag_h > 24,
+            "r_at_24h":        round(r24, 4) if r24 is not None else None,
+            "r_at_36h":        round(r36, 4) if r36 is not None else None,
+            "r_at_48h":        round(r48, 4) if r48 is not None else None,
+            "stronger_at_36h": (r36 is not None and r24 is not None
+                                and abs(r36) > abs(r24)),
+            "stronger_at_48h": (r48 is not None and r24 is not None
+                                and abs(r48) > abs(r24)),
+            "r_by_lag_h":      {f"{h}h": round(r, 4) for h, r in lags_h.items()},
+        })
+
+    records.sort(key=lambda x: abs(x["peak_r"]), reverse=True)
+    return records
+
+
+def write_focal_validation(
+    focal_records: list[dict],
+    out_path: Path,
+    threshold: float = 0.30,
+) -> None:
+    """Write validation.txt: one row per focal edge, status flags peak-lag location."""
+    lines = ["edge\tstatus\tr\tlag\tr_at_24h\tr_at_36h\tr_at_48h"]
+
+    for rec in focal_records:
+        if abs(rec["peak_r"]) < threshold:
+            continue
+
+        if rec["stronger_at_48h"]:
+            status = "PEAK_48H"
+        elif rec["stronger_at_36h"]:
+            status = "PEAK_36H"
+        elif rec["peak_lag_h"] == 24 and rec["r_at_36h"] is None:
+            status = "PEAK_24H_BOUNDARY"  # tau_max too small to test further
+        else:
+            status = "OK"
+
+        arrow = "focal→" if rec["dominant_dir"] == "focal→feat" else "→focal"
+        edge  = f"focal→{rec['name']}" if rec["dominant_dir"] == "focal→feat" else f"{rec['name']}→focal"
+
+        def _fmt(v):
+            return f"{v:+.4f}" if v is not None else "N/A"
+
+        lines.append(
+            f"{edge}\t{status}\t{rec['peak_r']:+.4f}\t{rec['peak_lag_h']}h"
+            f"\t{_fmt(rec['r_at_24h'])}\t{_fmt(rec['r_at_36h'])}\t{_fmt(rec['r_at_48h'])}"
+        )
+
+    with open(out_path, "w") as f:
+        f.write("\n".join(lines) + "\n")
+    print(f"Saved: {out_path}")
 
 
 def run_lagged_corr(
@@ -289,30 +387,6 @@ def run_lagged_corr(
                     "r": round(best_r, 4),
                 })
 
-    # Validation against known physical edges
-    edge_lookup = {
-        (e["src"], e["tgt"]): e for e in edges
-    }
-    validation = []
-    for src, tgt, exp_lag, desc in KNOWN_EDGES:
-        if src not in feature_ids or tgt not in feature_ids:
-            status = "MISSING — feature not in graph"
-            val_row = {"edge": desc, "status": status, "r": None, "lag": None}
-        elif (src, tgt) in edge_lookup:
-            e = edge_lookup[(src, tgt)]
-            lag_match = e["lag_steps"] == exp_lag
-            status = (
-                f"RECOVERED ✓ (lag {e['lag_hours']}h)"
-                if lag_match else
-                f"RECOVERED — wrong lag (got {e['lag_hours']}h, expected {exp_lag*step_h}h)"
-            )
-            val_row = {"edge": desc, "status": status,
-                       "r": e["r"], "lag": e["lag_hours"]}
-        else:
-            status = f"NOT SIGNIFICANT (r < {threshold})"
-            val_row = {"edge": desc, "status": status, "r": None, "lag": None}
-        validation.append(val_row)
-
     results = {
         "mode": "lagged_corr",
         "threshold": threshold,
@@ -323,23 +397,33 @@ def run_lagged_corr(
         "var_names": var_names,
         "edges": edges,
         "corr_cube": corr_cube.tolist(),
-        "validation": validation,
     }
 
     # Save JSON
     with open(out_dir / "lag_corr_results.json", "w") as f:
         json.dump(results, f, indent=2)
 
-    # Validation table
-    val_df = pd.DataFrame(validation)
-    val_df.to_csv(out_dir / "validation.txt", index=False, sep="\t")
-    print("\nValidation against known edges:")
-    print(val_df.to_string(index=False))
-
-    n_ok = sum(1 for r in validation if "RECOVERED ✓" in r["status"])
-    print(f"\nRecovered {n_ok}/{len(KNOWN_EDGES)} expected edges at threshold r≥{threshold}")
-
     return results
+
+
+def plot_lag_graph_signed_topn(
+    results: dict,
+    focal_feature: int,
+    out_path: Path,
+    n_pos: int = 3,
+    n_neg: int = 3,
+) -> None:
+    """Same as plot_lag_graph but keeps only the top-n_pos positive and
+    top-n_neg negative edges by |r|.  All nodes still shown.
+    Colorbar scale is locked to the full edge set."""
+    all_r = [abs(e["r"]) for e in results["edges"]]
+    pos = sorted([e for e in results["edges"] if e["r"] >= 0],
+                 key=lambda e: abs(e["r"]), reverse=True)[:n_pos]
+    neg = sorted([e for e in results["edges"] if e["r"] <  0],
+                 key=lambda e: abs(e["r"]), reverse=True)[:n_neg]
+    filtered = {**results, "edges": pos + neg,
+                "_r_min": min(all_r), "_r_max": max(all_r)}
+    plot_lag_graph(filtered, focal_feature, out_path)
 
 
 def plot_lag_graph(
@@ -350,9 +434,127 @@ def plot_lag_graph(
     """
     Draw a directed network graph where:
       - Nodes are laid out with the focal feature at center, seeds around it.
-      - Edge thickness/color encodes correlation strength |r|.
-      - Edge label shows lag in hours.
-      - Focal feature node is highlighted in orange.
+      - Positive-r edges: Oranges colormap; negative-r edges: Blues colormap.
+      - Edge thickness encodes |r|; edge label shows lag in hours.
+      - Focal node: black fill, white text.
+      - Other nodes: white fill, black outline, black text.
+    """
+    import matplotlib.pyplot as plt
+    import networkx as nx
+
+    feature_ids = results["feature_ids"]
+    var_names   = results["var_names"]
+    edges       = results["edges"]
+
+    G = nx.DiGraph()
+    for fid, name in zip(feature_ids, var_names):
+        G.add_node(fid, label=name)
+    for e in edges:
+        G.add_edge(e["src"], e["tgt"], r=e["r"], lag_h=e["lag_hours"],
+                   weight=abs(e["r"]))
+
+    # Layout: focal at center, others in a ring
+    others = [f for f in feature_ids if f != focal_feature]
+    angles = np.linspace(0, 2 * np.pi, len(others), endpoint=False)
+    pos = {fid: (np.cos(a) * 1.5, np.sin(a) * 1.5) for fid, a in zip(others, angles)}
+    pos[focal_feature] = (0.0, 0.0)
+
+    focal_idx   = feature_ids.index(focal_feature)
+    focal_label = var_names[focal_idx]
+
+    fig, ax = plt.subplots(figsize=(9, 7))
+    fig.patch.set_facecolor("black")
+    ax.set_facecolor("black")
+    ax.set_title(
+        f"Lagged Dependency Graph for {focal_label.title()}\n"
+        f"(threshold |r|≥{results['threshold']}, τ_max={results['tau_max']*6}h)",
+        fontsize=11, color="white",
+    )
+
+    # ── Nodes ────────────────────────────────────────────────────────────────
+    non_focal = [f for f in G.nodes() if f != focal_feature]
+    nx.draw_networkx_nodes(G, pos, ax=ax, nodelist=non_focal,
+                           node_color="black", edgecolors="white",
+                           linewidths=1.8, node_size=1600, alpha=0.92)
+    nx.draw_networkx_nodes(G, pos, ax=ax, nodelist=[focal_feature],
+                           node_color="white", node_size=2200, alpha=0.92)
+    nx.draw_networkx_labels(
+        G, pos, ax=ax,
+        labels={fid: G.nodes[fid]["label"] for fid in non_focal},
+        font_size=8, font_weight="bold", font_color="white",
+    )
+    nx.draw_networkx_labels(
+        G, pos, ax=ax,
+        labels={focal_feature: "Focal"},
+        font_size=8, font_weight="bold", font_color="black",
+    )
+
+    # ── Edges split by sign, normalised over the full edge set ───────────────
+    edge_list = list(G.edges(data=True))
+    if edge_list:
+        all_r_abs = np.array([abs(d["r"]) for _, _, d in edge_list])
+        r_min = results.get("_r_min", all_r_abs.min())
+        r_max = results.get("_r_max", all_r_abs.max())
+
+        pos_edges = [(s, t, d) for s, t, d in edge_list if d["r"] >= 0]
+        neg_edges = [(s, t, d) for s, t, d in edge_list if d["r"] <  0]
+
+        def _draw(edge_triples, cmap):
+            for src, tgt, data in edge_triples:
+                r_norm = (abs(data["r"]) - r_min) / (r_max - r_min + 1e-8)
+                nx.draw_networkx_edges(
+                    G, pos, ax=ax,
+                    edgelist=[(src, tgt)],
+                    edge_color=[cmap(0.4 + 0.6 * r_norm)],
+                    width=1.5 + 3.0 * r_norm,
+                    arrows=True, arrowsize=20,
+                    min_source_margin=25, min_target_margin=25,
+                )
+
+        _draw(pos_edges, plt.cm.Oranges)
+        _draw(neg_edges, plt.cm.Blues)
+
+        edge_labels = {(e["src"], e["tgt"]): f'{e["lag_hours"]}h' for e in edges}
+        nx.draw_networkx_edge_labels(
+            G, pos, edge_labels=edge_labels, ax=ax,
+            font_size=8, label_pos=0.5, rotate=True, font_color="white",
+            bbox=dict(boxstyle="round,pad=0.15", fc="black", ec="none", alpha=0.8),
+        )
+
+        norm = plt.Normalize(vmin=r_min, vmax=r_max)
+        fig.subplots_adjust(left=0.12, right=0.88)
+        cax_red  = fig.add_axes([0.03, 0.12, 0.033, 0.74])
+        cax_blue = fig.add_axes([0.93, 0.12, 0.033, 0.74])
+        for cax, cmap, label in [
+            (cax_red,  plt.cm.Oranges, "|r|  positive correlation"),
+            (cax_blue, plt.cm.Blues,   "|r|  negative correlation"),
+        ]:
+            sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
+            sm.set_array([])
+            cb = fig.colorbar(sm, cax=cax)
+            cb.set_label(label, fontsize=7.5, color="white")
+            cb.ax.tick_params(labelsize=7, colors="white")
+            cb.ax.yaxis.set_tick_params(color="white")
+            plt.setp(cb.ax.yaxis.get_ticklines(), color="white")
+
+    ax.axis("off")
+    plt.savefig(str(out_path), dpi=150, bbox_inches="tight", facecolor="black")
+    plt.close()
+    print(f"Saved: {out_path}")
+
+
+def plot_lag_graph_top5(
+    results: dict,
+    focal_feature: int,
+    out_path: Path,
+    n_top: int = 5,
+) -> None:
+    """
+    Same layout and colorbar scale as plot_lag_graph, but:
+      - Only the top-n edges by |r| are drawn
+      - All nodes still shown at the same positions
+      - Focal node: black fill, white text
+      - Other nodes: white fill, black outline, black text
     """
     import matplotlib.pyplot as plt
     import matplotlib.patches as mpatches
@@ -360,58 +562,77 @@ def plot_lag_graph(
 
     feature_ids = results["feature_ids"]
     var_names   = results["var_names"]
-    edges       = results["edges"]
+    all_edges   = results["edges"]
     F           = len(feature_ids)
 
+    top_edges = sorted(all_edges, key=lambda e: abs(e["r"]), reverse=True)[:n_top]
+
+    # Build graph with ALL nodes but only top edges
     G = nx.DiGraph()
     for fid, name in zip(feature_ids, var_names):
         G.add_node(fid, label=name)
-    for e in edges:
-        G.add_edge(e["src"], e["tgt"],
-                   r=e["r"], lag_h=e["lag_hours"],
+    for e in top_edges:
+        G.add_edge(e["src"], e["tgt"], r=e["r"], lag_h=e["lag_hours"],
                    weight=abs(e["r"]))
 
-    # Layout: focal at center, others in a ring
-    pos = {}
+    # Same ring layout as plot_lag_graph
     others = [f for f in feature_ids if f != focal_feature]
     angles = np.linspace(0, 2 * np.pi, len(others), endpoint=False)
-    for fid, angle in zip(others, angles):
-        pos[fid] = (np.cos(angle) * 1.5, np.sin(angle) * 1.5)
+    pos = {fid: (np.cos(a) * 1.5, np.sin(a) * 1.5) for fid, a in zip(others, angles)}
     pos[focal_feature] = (0.0, 0.0)
 
-    node_colors = [
-        "#FF8C00" if fid == focal_feature else "#4A90D9"
-        for fid in G.nodes()
-    ]
-    node_sizes = [2200 if fid == focal_feature else 1600 for fid in G.nodes()]
+    focal_idx   = feature_ids.index(focal_feature)
+    focal_label = var_names[focal_idx]
 
     fig, ax = plt.subplots(figsize=(9, 7))
+    fig.patch.set_facecolor("black")
+    ax.set_facecolor("black")
     ax.set_title(
-        f"Lagged Dependency Graph \nFocal: F{focal_feature} "
-        f"(threshold |r|≥{results['threshold']}, τ_max={results['tau_max']*6}h)",
-        fontsize=11,
+        f"Lagged Dependency Graph for {focal_label.title()}\n"
+        f"(top {n_top} edges |r|≥{results['threshold']}, τ_max={results['tau_max']*6}h)",
+        fontsize=11, color="white",
     )
 
-    nx.draw_networkx_nodes(G, pos, ax=ax,
-                           node_color=node_colors, node_size=node_sizes,
-                           alpha=0.92)
+    # ── Nodes ────────────────────────────────────────────────────────────────
+    non_focal = [f for f in G.nodes() if f != focal_feature]
+    nx.draw_networkx_nodes(
+        G, pos, ax=ax,
+        nodelist=non_focal,
+        node_color="black", edgecolors="white", linewidths=1.8,
+        node_size=1600, alpha=0.92,
+    )
+    nx.draw_networkx_nodes(
+        G, pos, ax=ax,
+        nodelist=[focal_feature],
+        node_color="white",
+        node_size=2200, alpha=0.92,
+    )
+
+    node_labels = {fid: ("Focal" if fid == focal_feature else G.nodes[fid]["label"])
+                   for fid in G.nodes()}
     nx.draw_networkx_labels(
         G, pos, ax=ax,
-        labels={fid: G.nodes[fid]["label"] for fid in G.nodes()},
-        font_size=8, font_weight="bold",
+        labels={fid: lbl for fid, lbl in node_labels.items() if fid != focal_feature},
+        font_size=8, font_weight="bold", font_color="white",
+    )
+    nx.draw_networkx_labels(
+        G, pos, ax=ax,
+        labels={focal_feature: "Focal"},
+        font_size=8, font_weight="bold", font_color="black",
     )
 
-    # Draw edges colored by |r|
+    # ── Edges: same colormap/scale as plot_lag_graph (normalised over ALL edges) ──
     edge_list = list(G.edges(data=True))
     if edge_list:
-        r_vals   = np.array([abs(d["r"]) for _, _, d in edge_list])
-        r_min, r_max = r_vals.min(), r_vals.max()
-        r_norm   = (r_vals - r_min) / (r_max - r_min + 1e-8)
-        cmap     = plt.cm.Oranges
-        colors   = [cmap(0.4 + 0.6 * v) for v in r_norm]
-        widths   = [1.5 + 3.0 * v for v in r_norm]
+        all_r_abs = np.array([abs(e["r"]) for e in all_edges])
+        r_min, r_max = all_r_abs.min(), all_r_abs.max()
+        cmap = plt.cm.Oranges
 
-        for (src, tgt, data), color, width in zip(edge_list, colors, widths):
+        for src, tgt, data in edge_list:
+            r_abs  = abs(data["r"])
+            r_norm = (r_abs - r_min) / (r_max - r_min + 1e-8)
+            color  = cmap(0.4 + 0.6 * r_norm)
+            width  = 1.5 + 3.0 * r_norm
             nx.draw_networkx_edges(
                 G, pos, ax=ax,
                 edgelist=[(src, tgt)],
@@ -420,36 +641,26 @@ def plot_lag_graph(
                 min_source_margin=25, min_target_margin=25,
             )
 
-        edge_labels = {(e["src"], e["tgt"]): f'{e["lag_hours"]}h'
-                       for e in results["edges"]}
+        edge_labels = {(e["src"], e["tgt"]): f'{e["lag_hours"]}h' for e in top_edges}
         nx.draw_networkx_edge_labels(
             G, pos, edge_labels=edge_labels, ax=ax,
-            font_size=8, label_pos=0.5, rotate=True,
-            bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.8),
+            font_size=8, label_pos=0.5, rotate=True, font_color="white",
+            bbox=dict(boxstyle="round,pad=0.15", fc="black", ec="none", alpha=0.8),
         )
 
-        # Colorbar for |r| (edge color + width)
         sm = plt.cm.ScalarMappable(
-            cmap=cmap,
-            norm=plt.Normalize(vmin=r_min - (r_max - r_min) * 0.6 / 0.6, vmax=r_max),
-        )
-        # Remap so bar spans the 0.4–1.0 range we actually use
-        sm = plt.cm.ScalarMappable(
-            cmap=plt.cm.Oranges,
-            norm=plt.Normalize(vmin=r_min, vmax=r_max),
+            cmap=cmap, norm=plt.Normalize(vmin=r_min, vmax=r_max),
         )
         sm.set_array([])
         cb = fig.colorbar(sm, ax=ax, fraction=0.03, pad=0.02, aspect=20)
-        cb.set_label("|r|  (edge color & width)", fontsize=8)
-        cb.ax.tick_params(labelsize=7)
+        cb.set_label("|r|  (edge color & width)", fontsize=8, color="white")
+        cb.ax.tick_params(labelsize=7, colors="white")
+        cb.ax.yaxis.set_tick_params(color="white")
+        plt.setp(cb.ax.yaxis.get_ticklines(), color="white")
 
-    focal_patch = mpatches.Patch(color="#FF8C00", label="Focal feature")
-    peer_patch  = mpatches.Patch(color="#4A90D9", label="Correlated features")
-    ax.legend(handles=[focal_patch, peer_patch], loc="lower right", fontsize=8)
     ax.axis("off")
-
     plt.tight_layout()
-    plt.savefig(str(out_path), dpi=150, bbox_inches="tight")
+    plt.savefig(str(out_path), dpi=150, bbox_inches="tight", facecolor="black")
     plt.close()
     print(f"Saved: {out_path}")
 
@@ -576,24 +787,7 @@ def validate_pcmci(
     feature_ids: list[int],
     alpha: float,
 ) -> list[dict]:
-    feat_pos = {f: i for i, f in enumerate(feature_ids)}
-    rows = []
-    for src, tgt, lag, desc in KNOWN_EDGES:
-        if src not in feat_pos or tgt not in feat_pos:
-            rows.append({"edge": desc, "status": "MISSING", "val": None, "p": None})
-            continue
-        i, j = feat_pos[src], feat_pos[tgt]
-        if lag > val_matrix.shape[2] - 1:
-            rows.append({"edge": desc, "status": "lag out of range", "val": None, "p": None})
-            continue
-        val  = float(val_matrix[i, j, lag])
-        pval = float(p_matrix[i, j, lag])
-        status = ("RECOVERED ✓" if pval < alpha and val > 0
-                  else "RECOVERED (negative)" if pval < alpha
-                  else "NOT SIGNIFICANT")
-        rows.append({"edge": desc, "src": src, "tgt": tgt, "lag": lag,
-                     "status": status, "val": round(val, 4), "p": round(pval, 4)})
-    return rows
+    return []
 
 
 def plot_pcmci_graph(
@@ -646,7 +840,7 @@ def main() -> None:
     p.add_argument("--screen_all",       action="store_true",
                    help="[lagged_corr] Load all features, screen by lagged r vs focal, "
                         "then run pairwise on focal + top --n_top")
-    p.add_argument("--n_top",            type=int, default=20,
+    p.add_argument("--n_top",            type=int, default=7,
                    help="[lagged_corr + --screen_all] How many top-scoring features to keep")
     p.add_argument("--n_mi_candidates",  type=int, default=20,
                    help="[pcmciplus only] Additional features from MI screening")
@@ -660,6 +854,8 @@ def main() -> None:
                    choices=["parcorr", "cmiknn"])
     p.add_argument("--aggregation",      default="max",
                    choices=["max", "mean", "p95"])
+    p.add_argument("--max_timesteps",     type=int, default=None,
+                   help="Truncate to first N timesteps after loading (e.g. 168 for Aug–Oct window)")
     p.add_argument("--sae_id",           default="layer8_k32_d4096")
     p.add_argument("--data_dir",         default="viz/data")
     p.add_argument("--out_dir",          default="results/causal")
@@ -693,6 +889,13 @@ def main() -> None:
                 args.sae_id, data_dir, args.aggregation
             )
             focal_col = focal   # feature id == column index since we loaded 0..n_features-1
+
+            # Truncate before screening so top-N reflects the requested window
+            if args.max_timesteps is not None:
+                all_series = all_series[:args.max_timesteps]
+                timestamps = timestamps[:args.max_timesteps]
+                print(f"Truncated to first {args.max_timesteps} timesteps "
+                      f"({timestamps[0]} → {timestamps[-1]})")
 
             print(f"\n=== Pass 2: lagged-r screening (all {n_features} features vs F{focal}) ===")
             top_cols, scores = screen_by_lagged_corr(
@@ -737,14 +940,56 @@ def main() -> None:
             out_dir=out_dir,
             focal_feature=focal,
         )
-        plot_lag_graph(results, focal, out_dir / "lag_dep_graph.pdf")
-        plot_corr_heatmap(results, args.tau_max, out_dir / "lag_corr_heatmap.pdf")
+        date_sfx = _date_suffix(timestamps)
+        plot_lag_graph(results, focal, out_dir / f"lag_dep_graph_{date_sfx}.pdf")
+        plot_lag_graph_top5(results, focal, out_dir / f"lag_dep_graph_top5_{date_sfx}.pdf")
+        plot_lag_graph_signed_topn(results, focal, out_dir / f"lag_dep_graph_top2x3_{date_sfx}.pdf", n_pos=3, n_neg=3)
+        plot_lag_graph_signed_topn(results, focal, out_dir / f"lag_dep_graph_top2x5_{date_sfx}.pdf", n_pos=5, n_neg=5)
+        plot_corr_heatmap(results, args.tau_max, out_dir / f"lag_corr_heatmap_{date_sfx}.pdf")
+
+        # ── Focal-anchored lag analysis: explicitly test 36h / 48h vs 24h ──
+        focal_records = analyze_focal_edges(
+            series, feature_ids, var_names,
+            focal_feature=focal,
+            tau_max=args.tau_max,
+        )
+        results["focal_edge_analysis"] = focal_records
+
+        hdr = (f"\n{'feature':<22} {'direction':<14} {'peak_r':>8} "
+               f"{'peak_lag':>9} {'r@24h':>8} {'r@36h':>8} {'r@48h':>8}  status")
+        print(f"\n=== Focal-edge lag analysis (tau_max={args.tau_max * 6}h) ==={hdr}")
+        for rec in focal_records:
+            if rec["stronger_at_48h"]:
+                flag = "PEAK_AT_48H !"
+            elif rec["stronger_at_36h"]:
+                flag = "PEAK_AT_36H !"
+            elif rec["peak_lag_h"] == 24 and rec["r_at_36h"] is None:
+                flag = "at_boundary—run with larger tau_max"
+            else:
+                flag = ""
+
+            def _s(v):
+                return f"{v:+.4f}" if v is not None else "  N/A  "
+
+            print(
+                f"  {rec['name']:<22} {rec['dominant_dir']:<14} "
+                f"{rec['peak_r']:>+8.4f} {str(rec['peak_lag_h'])+'h':>9} "
+                f"{_s(rec['r_at_24h']):>8} {_s(rec['r_at_36h']):>8} "
+                f"{_s(rec['r_at_48h']):>8}  {flag}"
+            )
+
+        write_focal_validation(focal_records, out_dir / "validation.txt",
+                               threshold=args.threshold)
+
+        # Re-save JSON with focal_edge_analysis included
+        with open(out_dir / "lag_corr_results.json", "w") as f:
+            json.dump(results, f, indent=2)
 
         print(f"\nOutputs in {out_dir}/")
-        print("  lag_dep_graph.pdf    — network graph")
-        print("  lag_corr_heatmap.pdf — correlation heatmap by lag")
+        print(f"  lag_dep_graph_{date_sfx}.pdf    — network graph")
+        print(f"  lag_corr_heatmap_{date_sfx}.pdf — correlation heatmap by lag")
         print("  lag_corr_results.json")
-        print("  validation.txt")
+        print("  validation.txt       — focal-edge lag analysis (36h/48h vs 24h)")
         if args.screen_all:
             print("  screening_scores.json — per-feature max |r| vs focal")
         return
@@ -816,15 +1061,11 @@ def main() -> None:
         "p_matrix": p_matrix.tolist(),
         "mi_top_features": [int(i) for i in mi_top],
         "anm_results": anm_results,
-        "validation": validation,
     }
     with open(out_dir / "results.json", "w") as f:
         json.dump(results, f, indent=2)
 
-    val_df = pd.DataFrame(validation)
-    val_df.to_csv(out_dir / "validation.txt", index=False, sep="\t")
-    n_ok = sum(1 for r in validation if "RECOVERED ✓" in r["status"])
-    print(f"\nRecovered {n_ok}/{len(KNOWN_EDGES)} expected edges  |  Results: {out_dir}/")
+    print(f"\nResults: {out_dir}/")
 
 
 if __name__ == "__main__":
@@ -836,10 +1077,10 @@ if __name__ == "__main__":
        --focal_feature 3243 \
        --screen_all \
        --n_top 5 \
-       --tau_max 4 \
+       --tau_max 8 \
        --threshold 0.3 \
        --mode lagged_corr \
        --sae_id layer8_k32_d4096 \
        --data_dir viz/data \
-       --out_dir results/dep_graph 2>&1 | tail -8
+       --out_dir results/dep_graph 2>&1 | tail -20
 '''

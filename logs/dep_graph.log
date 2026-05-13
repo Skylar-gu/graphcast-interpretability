@@ -1,0 +1,33 @@
+Mode: lagged_corr  |  threshold |r| >= 0.3  |  tau_max = 8 steps (48h)
+
+=== Pass 1: load all features ===
+Extracting all 4096 features over 392 timesteps...
+  0/392  10/392  20/392  30/392  40/392  50/392  60/392  70/392  80/392  90/392  100/392  110/392  120/392  130/392  140/392  150/392  160/392  170/392  180/392  190/392  200/392  210/392  220/392  230/392  240/392  250/392  260/392  270/392  280/392  290/392  300/392  310/392  320/392  330/392  340/392  350/392  360/392  370/392  380/392  390/392
+Done. Shape: (392, 4096)
+
+=== Pass 2: lagged-r screening (all 4096 features vs F3243) ===
+Top-7 features: [3817, 878, 1232, 3825, 1592, 3861, 2274]
+Scores:        [0.8561, 0.7667, 0.7212, 0.6585, 0.6186, 0.6131, 0.6058]
+
+Running pairwise lagged_corr on 8 features, T=392 timesteps
+Saved: results/dep_graph/lag_dep_graph_24082021_30112021.pdf
+Saved: results/dep_graph/lag_dep_graph_top5_24082021_30112021.pdf
+Saved: results/dep_graph/lag_corr_heatmap_24082021_30112021.pdf
+
+=== Focal-edge lag analysis (tau_max=48h) ===
+feature                direction        peak_r  peak_lag    r@24h    r@36h    r@48h  status
+  F3817                  feat→focal      +0.8561       12h  +0.8376  +0.8063  +0.7552  
+  F878                   focal→feat      +0.7667        6h  +0.7248  +0.6808  +0.6236  
+  F1232                  feat→focal      +0.7212       12h  +0.6874  +0.6477  +0.6058  
+  F3825                  feat→focal      +0.6585       42h  +0.6471  +0.6567  +0.6566  PEAK_AT_48H !
+  F1592                  feat→focal      +0.6186       48h  +0.5826  +0.6173  +0.6186  PEAK_AT_48H !
+  F3861                  focal→feat      +0.6131       18h  +0.6002  +0.5806  +0.5522  
+  F2274                  feat→focal      +0.6058       24h  +0.6058  +0.5930  +0.5765  
+Saved: results/dep_graph/validation.txt
+
+Outputs in results/dep_graph/
+  lag_dep_graph_24082021_30112021.pdf    — network graph
+  lag_corr_heatmap_24082021_30112021.pdf — correlation heatmap by lag
+  lag_corr_results.json
+  validation.txt       — focal-edge lag analysis (36h/48h vs 24h)
+  screening_scores.json — per-feature max |r| vs focal

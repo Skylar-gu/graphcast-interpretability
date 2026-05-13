@@ -335,9 +335,20 @@ def main() -> None:
     missing_days = [d for d in sorted(needed_days)
                     if not (Path(era5_dir) / f"era5_{d}.nc").exists()]
     if missing_days:
-        print(f"Downloading ERA5 for missing days: {missing_days}")
-        ds_era5 = load_era5(args.start, args.end)
-        write_daily_nc(ds_era5, era5_dir)
+        print(f"Downloading ERA5 for {len(missing_days)} missing days (in monthly chunks)…")
+        # Group missing days into monthly buckets to avoid loading the full
+        # date range into RAM at once (~3.8 GB/day × 90 days > 300 GB).
+        from itertools import groupby
+        def _ym(d): return d[:7]  # "YYYY-MM"
+        for month, days_iter in groupby(missing_days, key=_ym):
+            days = list(days_iter)
+            # Extend the fetch window one day on each side for windowing overlap
+            chunk_start = str(np.datetime64(days[0])  - np.timedelta64(1, "D"))[:10]
+            chunk_end   = str(np.datetime64(days[-1]) + np.timedelta64(1, "D"))[:10]
+            print(f"  Fetching {month} ({len(days)} days): {chunk_start} → {chunk_end}")
+            ds_chunk = load_era5(chunk_start, chunk_end)
+            write_daily_nc(ds_chunk, era5_dir)
+            del ds_chunk
     else:
         print(f"All ERA5 daily files already cached in {era5_dir}/")
 

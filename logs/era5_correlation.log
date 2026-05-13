@@ -1,0 +1,70 @@
+✅ Using cached M→G mapping: /lambda/nfs/demo/graphcast-interpretability/viz/data/graph/mapper_cache/mesh2grid_s6_g5ac3c9ae.npz
+Extracting feature 3243 across 168 timesteps (40962 nodes)…
+  t=0/168
+  t=20/168
+  t=40/168
+  t=60/168
+  t=80/168
+  t=100/168
+  t=120/168
+  t=140/168
+  t=160/168
+
+Activation maps: (168, 721, 1440), T=168, range [0.000, 12.471]
+Timestamps: 2021-08-24T00 → 2021-10-05T18
+
+=== Spatial Correlation Maps ===
+  MSLP… max|r|=0.425, mean_r=-0.001
+/lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/cartopy/io/__init__.py:242: DownloadWarning: Downloading: https://naturalearth.s3.amazonaws.com/110m_physical/ne_110m_coastline.zip
+  warnings.warn(f'Downloading: {url}', DownloadWarning)
+/lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/cartopy/io/__init__.py:242: DownloadWarning: Downloading: https://naturalearth.s3.amazonaws.com/110m_cultural/ne_110m_admin_0_boundary_lines_land.zip
+  warnings.warn(f'Downloading: {url}', DownloadWarning)
+  Saved: results/era5_correlation/spatial_r_F3243_MSLP.pdf
+  GPH 850 hPa… max|r|=0.430, mean_r=-0.001
+  Saved: results/era5_correlation/spatial_r_F3243_GPH_850_hPa.pdf
+  GPH 500 hPa… max|r|=0.422, mean_r=-0.001
+  Saved: results/era5_correlation/spatial_r_F3243_GPH_500_hPa.pdf
+  T 300 hPa… max|r|=0.543, mean_r=0.003
+  Saved: results/era5_correlation/spatial_r_F3243_T_300_hPa.pdf
+  q 850 hPa… max|r|=0.479, mean_r=0.002
+  Saved: results/era5_correlation/spatial_r_F3243_q_850_hPa.pdf
+  q 700 hPa… max|r|=0.493, mean_r=0.001
+  Saved: results/era5_correlation/spatial_r_F3243_q_700_hPa.pdf
+  U 850 hPa… max|r|=0.456, mean_r=0.000
+  Saved: results/era5_correlation/spatial_r_F3243_U_850_hPa.pdf
+  V 850 hPa… max|r|=0.519, mean_r=-0.000
+  Saved: results/era5_correlation/spatial_r_F3243_V_850_hPa.pdf
+  U 200 hPa… max|r|=0.527, mean_r=0.000
+  Saved: results/era5_correlation/spatial_r_F3243_U_200_hPa.pdf
+  V 200 hPa… max|r|=0.535, mean_r=0.000
+  Saved: results/era5_correlation/spatial_r_F3243_V_200_hPa.pdf
+  ω 500 hPa… max|r|=0.861, mean_r=-0.000
+  Saved: results/era5_correlation/spatial_r_F3243_omega_500_hPa.pdf
+
+=== Summary: max |r| by ERA5 field ===
+  ω 500 hPa            max|r|=0.861  mean_r=-0.000
+  T 300 hPa            max|r|=0.543  mean_r=+0.003
+  V 200 hPa            max|r|=0.535  mean_r=+0.000
+  U 200 hPa            max|r|=0.527  mean_r=+0.000
+  V 850 hPa            max|r|=0.519  mean_r=-0.000
+  q 700 hPa            max|r|=0.493  mean_r=+0.001
+  q 850 hPa            max|r|=0.479  mean_r=+0.002
+  U 850 hPa            max|r|=0.456  mean_r=+0.000
+  GPH 850 hPa          max|r|=0.430  mean_r=-0.001
+  MSLP                 max|r|=0.425  mean_r=-0.001
+  GPH 500 hPa          max|r|=0.422  mean_r=-0.001
+
+Summary saved: results/era5_correlation/summary_F3243.pdf
+
+=== Temporal Correlation (global max activation vs ERA5 spatial max) ===
+  T 300 hPa             r=+0.550
+  V 850 hPa             r=+0.519
+  U 850 hPa             r=+0.455
+  q 700 hPa             r=+0.359
+  GPH 500 hPa           r=+0.222
+  V 200 hPa             r=-0.181
+  U 200 hPa             r=-0.131
+  ω 500 hPa             r=+0.122
+  GPH 850 hPa           r=+0.096
+  MSLP                  r=+0.046
+  q 850 hPa             r=+0.034

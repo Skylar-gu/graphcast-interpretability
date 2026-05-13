@@ -4,7 +4,7 @@ Offline test of the SAE intervention pipeline.
 Three modes:
   ablate  — zero out a feature in one run (default)
   steer   — amplify a feature in one run
-  patch   — transplant a feature's codes from run A into run B,
+  patch   — transplant feature codes from run A into run B,
              measure how much B's output shifts toward A
 
 Uses synthetic activations — no GraphCast or cluster needed.
@@ -16,6 +16,7 @@ Usage:
     python scripts/test_ablation.py --steer --strength 3.0       # steer F3243
     python scripts/test_ablation.py --patch                      # patch F3243 A→B
     python scripts/test_ablation.py --patch --real_acts A.npy --real_acts_b B.npy
+    python scripts/test_ablation.py --patch --features 3243 3817 878 --real_acts A.npy --real_acts_b B.npy
 """
 
 from __future__ import annotations
@@ -134,10 +135,20 @@ def patch_feature(codes_src: np.ndarray, codes_tgt: np.ndarray,
     return out
 
 
+def patch_features(codes_src: np.ndarray, codes_tgt: np.ndarray,
+                   feature_ids: list[int]) -> np.ndarray:
+    """Transplant multiple features simultaneously from src into tgt."""
+    out = codes_tgt.copy()
+    for fid in feature_ids:
+        out[:, fid] = codes_src[:, fid]
+    return out
+
+
 # ── Metrics ───────────────────────────────────────────────────────────────────
 
 def patch_recovery(recon_a: np.ndarray, recon_b: np.ndarray,
-                   recon_patched: np.ndarray) -> None:
+                   recon_patched: np.ndarray,
+                   active_mask: np.ndarray | None = None) -> dict:
     """
     Measure how much patching B toward A actually shifts B's output.
 
@@ -147,23 +158,41 @@ def patch_recovery(recon_a: np.ndarray, recon_b: np.ndarray,
                     causally relevant feature)
 
     Uses per-node cosine distance so scale differences don't dominate.
+    If active_mask is provided, also reports recovery restricted to those nodes.
     """
     def cos_dist(x, y):
         num = (x * y).sum(axis=1)
         den = (np.linalg.norm(x, axis=1) * np.linalg.norm(y, axis=1)).clip(1e-8)
         return 1.0 - num / den   # 0 = identical, 2 = opposite
 
-    d_ab      = cos_dist(recon_a, recon_b)          # original A↔B distance
-    d_patched = cos_dist(recon_a, recon_patched)     # A↔patched-B distance
-    recovery  = 1.0 - d_patched / d_ab.clip(1e-8)   # fraction of gap closed
+    d_ab      = cos_dist(recon_a, recon_b)
+    d_patched = cos_dist(recon_a, recon_patched)
+    recovery  = 1.0 - d_patched / d_ab.clip(1e-8)
 
-    print(f"\n── Patch recovery ──")
-    print(f"  A↔B cosine distance (baseline):   mean={d_ab.mean():.4f}  max={d_ab.max():.4f}")
-    print(f"  A↔patched-B cosine distance:      mean={d_patched.mean():.4f}  max={d_patched.max():.4f}")
-    print(f"  Recovery (fraction of gap closed): mean={recovery.mean():.4f}  "
+    print(f"\n── Global patch recovery (all {len(recon_b)} nodes) ──")
+    print(f"  A↔B cosine distance (baseline):    mean={d_ab.mean():.4f}  max={d_ab.max():.4f}")
+    print(f"  A↔patched-B cosine distance:       mean={d_patched.mean():.4f}  max={d_patched.max():.4f}")
+    print(f"  Recovery (fraction of gap closed):  mean={recovery.mean():.4f}  "
           f"[1=full, 0=none, <0=wrong direction]")
-    print(f"  Nodes where feature was patched:  "
+    print(f"  Nodes touched by patch:             "
           f"{int((recon_patched != recon_b).any(axis=1).sum())} / {len(recon_b)}")
+
+    results = {"global_recovery": float(recovery.mean())}
+
+    if active_mask is not None and active_mask.sum() > 0:
+        n_active = int(active_mask.sum())
+        d_ab_loc      = d_ab[active_mask]
+        d_patched_loc = d_patched[active_mask]
+        rec_loc = 1.0 - d_patched_loc / d_ab_loc.clip(1e-8)
+        print(f"\n── Local patch recovery (nodes where ≥1 feature active in storm: {n_active}) ──")
+        print(f"  A↔B cosine distance (baseline):    mean={d_ab_loc.mean():.4f}  max={d_ab_loc.max():.4f}")
+        print(f"  A↔patched-B cosine distance:       mean={d_patched_loc.mean():.4f}  max={d_patched_loc.max():.4f}")
+        print(f"  Recovery (fraction of gap closed):  mean={rec_loc.mean():.4f}  "
+              f"[1=full, 0=none, <0=wrong direction]")
+        results["local_recovery"] = float(rec_loc.mean())
+        results["local_n_nodes"]  = n_active
+
+    return results
 
 
 def report(label: str, original: np.ndarray, modified: np.ndarray) -> None:
@@ -201,7 +230,9 @@ def report_codes(label: str, codes_before: np.ndarray, codes_after: np.ndarray,
 def main() -> None:
     p = argparse.ArgumentParser()
     p.add_argument("--feature",   type=int, default=3243,
-                   help="SAE feature to intervene on")
+                   help="SAE feature to intervene on (single)")
+    p.add_argument("--features",  type=int, nargs="+", default=None,
+                   help="Multiple SAE features to patch simultaneously (--patch only)")
     p.add_argument("--steer",     action="store_true",
                    help="Use steering instead of zero-ablation")
     p.add_argument("--mean_ablate", action="store_true",
@@ -231,7 +262,12 @@ def main() -> None:
     # ── Activations ───────────────────────────────────────────────────────
     def load_acts(path: str | None, seed_offset: int = 0) -> np.ndarray:
         if path:
-            raw = np.load(path).astype(np.float32)
+            import ml_dtypes
+            raw = np.load(path)
+            if raw.dtype.kind == 'V' and raw.dtype.itemsize == 2:
+                raw = raw.view(ml_dtypes.bfloat16).astype(np.float32)
+            else:
+                raw = raw.astype(np.float32)
             if raw.ndim == 3:
                 raw = raw[:, 0, :]
             acts = normalise(raw)
@@ -246,7 +282,9 @@ def main() -> None:
 
     # ── Patch mode ────────────────────────────────────────────────────────
     if args.patch:
-        print("\n=== Activation patching: transplant F{} from A → B ===".format(args.feature))
+        feature_ids = args.features if args.features else [args.feature]
+        label_str = "+".join(f"F{f}" for f in feature_ids)
+        print(f"\n=== Activation patching: transplant {label_str} from A → B ===")
         if not args.real_acts_b and args.real_acts:
             print("Note: --real_acts_b not provided; using a second synthetic run as B")
 
@@ -259,29 +297,55 @@ def main() -> None:
         recon_a = sae_decode(codes_a, dec_w, b_pre)
         recon_b = sae_decode(codes_b, dec_w, b_pre)
 
-        codes_patched = patch_feature(codes_a, codes_b, args.feature)
+        # Per-feature stats and active mask (nodes where any feature fires in A)
+        print(f"\n  {'Feature':>8}  {'A active':>10}  {'A max':>8}  {'B active':>10}  {'B max':>8}  {'score':>8}")
+        print(f"  {'-'*8}  {'-'*10}  {'-'*8}  {'-'*10}  {'-'*8}  {'-'*8}")
+        active_mask = np.zeros(len(codes_a), dtype=bool)
+        scores = args.scores if hasattr(args, "scores") and args.scores else [None] * len(feature_ids)
+        for fid in feature_ids:
+            n_a = int((codes_a[:, fid] > 0).sum())
+            n_b = int((codes_b[:, fid] > 0).sum())
+            print(f"  F{fid:>6}  {n_a:>10}  {codes_a[:, fid].max():>8.4f}"
+                  f"  {n_b:>10}  {codes_b[:, fid].max():>8.4f}")
+            active_mask |= (codes_a[:, fid] > 0)
+
+        # Joint patch
+        codes_patched = patch_features(codes_a, codes_b, feature_ids)
         recon_patched = sae_decode(codes_patched, dec_w, b_pre)
 
-        print(f"\nRun A  — F{args.feature}: "
-              f"n_active={int((codes_a[:, args.feature] > 0).sum())}, "
-              f"max={codes_a[:, args.feature].max():.4f}")
-        print(f"Run B  — F{args.feature}: "
-              f"n_active={int((codes_b[:, args.feature] > 0).sum())}, "
-              f"max={codes_b[:, args.feature].max():.4f}")
-        print(f"Patched B — F{args.feature}: "
-              f"n_active={int((codes_patched[:, args.feature] > 0).sum())}, "
-              f"max={codes_patched[:, args.feature].max():.4f}")
+        print(f"\n  Storm nodes where ≥1 feature fires (union): "
+              f"{int(active_mask.sum())} / {len(recon_b)} "
+              f"({100*active_mask.mean():.1f}%)")
 
-        patch_recovery(recon_a, recon_b, recon_patched)
+        results = patch_recovery(recon_a, recon_b, recon_patched, active_mask=active_mask)
+
+        # Individual recoveries for comparison
+        if len(feature_ids) > 1:
+            print(f"\n── Individual feature recoveries (for comparison) ──")
+            def cos_dist(x, y):
+                num = (x * y).sum(axis=1)
+                den = (np.linalg.norm(x, axis=1) * np.linalg.norm(y, axis=1)).clip(1e-8)
+                return 1.0 - num / den
+
+            d_ab = cos_dist(recon_a, recon_b)
+            for fid in feature_ids:
+                cp = patch_feature(codes_a, codes_b, fid)
+                rp = sae_decode(cp, dec_w, b_pre)
+                d_p = cos_dist(recon_a, rp)
+                rec_g = (1.0 - d_p / d_ab.clip(1e-8)).mean()
+                fmask = (codes_a[:, fid] > 0)
+                rec_l = (1.0 - d_p[fmask] / d_ab[fmask].clip(1e-8)).mean() if fmask.sum() > 0 else float("nan")
+                print(f"  F{fid}: global={rec_g:.4f}  local={rec_l:.4f}"
+                      f"  ({int(fmask.sum())} nodes)")
 
         # Sanity: patching with identical runs should give zero recovery gap
-        codes_same  = patch_feature(codes_a, codes_a, args.feature)
-        recon_same  = sae_decode(codes_same, dec_w, b_pre)
-        delta_same  = np.linalg.norm(recon_same - recon_a, axis=1).max()
+        codes_same = patch_features(codes_a, codes_a, feature_ids)
+        recon_same = sae_decode(codes_same, dec_w, b_pre)
+        delta_same = np.linalg.norm(recon_same - recon_a, axis=1).max()
         print(f"\n── Sanity: patch A into A (should be no change) ──")
         print(f"  Max L2 change: {delta_same:.6f}  (should be 0.0)")
 
-        print("\nDone. Recovery > 0 means patching F{} moves B toward A.".format(args.feature))
+        print(f"\nDone. Recovery > 0 means patching {label_str} moves B toward A.")
         print("With real activations: high recovery on storm timesteps = causal evidence.")
         return
 

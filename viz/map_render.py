@@ -1,11 +1,13 @@
-"""Geographic map rendering for SAE feature activations using Cartopy."""
+"""Geographic map rendering for SAE feature activations."""
 
 from __future__ import annotations
+import functools
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
+import plotly.graph_objects as go
 
 PROJECTION = ccrs.PlateCarree()
 
@@ -21,6 +23,18 @@ REGION_PRESETS: dict[str, tuple[float, float, float, float] | None] = {
 }
 
 COLORMAPS = ["GnBu", "Blues", "YlGnBu", "bone", "gray_r", "cividis", "PuBu", "twilight_shifted"]
+
+# Plotly colorscale equivalents (used for the interactive map)
+_PLOTLY_CS: dict[str, str] = {
+    "GnBu": "GnBu",
+    "Blues": "Blues",
+    "YlGnBu": "YlGnBu",
+    "bone": "Greys",
+    "gray_r": "Greys",
+    "cividis": "Cividis",
+    "PuBu": "PuBu",
+    "twilight_shifted": "IceFire",
+}
 
 # Dark, dramatic basemap — deep slate ocean, charcoal land
 _LAND   = cfeature.NaturalEarthFeature("physical", "land",   "50m",
@@ -44,6 +58,43 @@ _BORDERS = cfeature.NaturalEarthFeature("cultural",
 
 def _lon_0_360_to_180(lon: np.ndarray) -> np.ndarray:
     return np.where(lon > 180, lon - 360, lon)
+
+
+@functools.lru_cache(maxsize=2)
+def _geo_land_coast() -> tuple[list, list, list, list]:
+    """Return (land_lons, land_lats, coast_lons, coast_lats) as NaN-separated lists.
+    Extracted from Natural Earth via cartopy; result is module-level cached."""
+    def _extract_polygons(feature):
+        lons, lats = [], []
+        for geom in feature.geometries():
+            parts = list(getattr(geom, 'geoms', [geom]))
+            for p in parts:
+                try:
+                    c = np.array(p.exterior.coords)
+                    lons.extend(c[:, 0].tolist() + [None])
+                    lats.extend(c[:, 1].tolist() + [None])
+                except Exception:
+                    pass
+        return lons, lats
+
+    def _extract_lines(feature):
+        lons, lats = [], []
+        for geom in feature.geometries():
+            parts = list(getattr(geom, 'geoms', [geom]))
+            for p in parts:
+                try:
+                    c = np.array(p.coords)
+                    lons.extend(c[:, 0].tolist() + [None])
+                    lats.extend(c[:, 1].tolist() + [None])
+                except Exception:
+                    pass
+        return lons, lats
+
+    land_lons, land_lats = _extract_polygons(
+        cfeature.NaturalEarthFeature("physical", "land", "110m", facecolor="none"))
+    coast_lons, coast_lats = _extract_lines(
+        cfeature.NaturalEarthFeature("physical", "coastline", "50m", facecolor="none"))
+    return land_lons, land_lats, coast_lons, coast_lats
 
 
 def _sort_lon_grid(display_lon, masked):
@@ -149,4 +200,97 @@ def render_activation_map(
     gl = ax.gridlines(linewidth=0.2, color="#2a4a6a", alpha=0.6, linestyle=":")
     gl.top_labels = gl.right_labels = gl.bottom_labels = gl.left_labels = False
 
+    return fig
+
+
+def render_activation_map_plotly(
+    activation_grid: np.ndarray,
+    grid_lat: np.ndarray,
+    grid_lon: np.ndarray,
+    lon_bounds: tuple[float, float],
+    lat_bounds: tuple[float, float],
+    feature_id: int,
+    timestamp: str,
+    colormap: str = "GnBu",
+    threshold: float = 0.0,
+    vmax: float | None = None,
+    height: int = 520,
+) -> go.Figure:
+    """
+    Interactive zoomable activation map using go.Heatmap (no density smoothing).
+    Grid cells are rendered accurately at their true positions.
+    """
+    display_lon = _lon_0_360_to_180(grid_lon)
+    masked = np.where(activation_grid > threshold, activation_grid, np.nan)
+    sorted_lon, sorted_masked = _sort_lon_grid(display_lon, masked)
+
+    _zmax = float(vmax) if vmax is not None else (
+        float(np.nanmax(activation_grid)) if not np.all(np.isnan(activation_grid)) else 1.0)
+    colorscale = _PLOTLY_CS.get(colormap, colormap)
+
+    land_lons, land_lats, coast_lons, coast_lats = _geo_land_coast()
+
+    fig = go.Figure()
+
+    # Land fill (behind heatmap — NaN heatmap cells are transparent)
+    fig.add_trace(go.Scatter(
+        x=land_lons, y=land_lats,
+        fill='toself',
+        fillcolor='#2e2e2e',
+        line=dict(color='#2e2e2e', width=0),
+        mode='lines',
+        showlegend=False,
+        hoverinfo='skip',
+    ))
+
+    # Activation heatmap — raw grid, no smoothing
+    fig.add_trace(go.Heatmap(
+        z=sorted_masked,
+        x=sorted_lon.tolist(),
+        y=grid_lat.tolist(),
+        colorscale=colorscale,
+        zmin=float(threshold),
+        zmax=_zmax,
+        zsmooth=False,
+        connectgaps=False,
+        opacity=0.85,
+        showscale=True,
+        colorbar=dict(
+            title=dict(text="SAE activation", side="right", font=dict(size=11)),
+            thickness=14, len=0.75, x=1.01,
+        ),
+        hovertemplate="lat: %{y:.2f}°<br>lon: %{x:.2f}°<br>activation: %{z:.3f}<extra></extra>",
+    ))
+
+    # Coastlines on top
+    fig.add_trace(go.Scatter(
+        x=coast_lons, y=coast_lats,
+        mode='lines',
+        line=dict(color='#6a8faf', width=0.7),
+        showlegend=False,
+        hoverinfo='skip',
+    ))
+
+    fig.update_layout(
+        xaxis=dict(
+            range=[lon_bounds[0], lon_bounds[1]],
+            showgrid=False, zeroline=False,
+            showline=False, showticklabels=False, ticks='',
+        ),
+        yaxis=dict(
+            range=[lat_bounds[0], lat_bounds[1]],
+            showgrid=False, zeroline=False,
+            showline=False, showticklabels=False, ticks='',
+        ),
+        height=height,
+        margin=dict(l=0, r=60, t=36, b=0),
+        title=dict(
+            text=f"Feature {feature_id}  ·  {timestamp}",
+            font=dict(size=13), x=0.02, xanchor="left",
+        ),
+        paper_bgcolor="#0a1520",
+        plot_bgcolor="#0d1b2a",
+        font_color="#c8daea",
+        dragmode='pan',
+    )
     return fig

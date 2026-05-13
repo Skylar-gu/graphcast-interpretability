@@ -1,0 +1,129 @@
+TOP-7 FEATURE INTERVENTIONS — 24082021_30112021 DEPENDENCY GRAPH
+=================================================================
+
+Source graph : results/dep_graph/lag_dep_graph_24082021_30112021.pdf
+Storm run (A): data/activations_raw/layer0008_..._t2021-08-30T18.npy  (F3243 peak=15.94)
+Calm  run (B): data/activations_raw/layer0008_..._t2021-11-26T00.npy  (F3243=0.00)
+SAE           : theodoremacmillan/sae-graphcast-k32-lat4096-lay08  (sae_step0334221_t2300M.pt)
+Date run      : 2026-05-13
+
+Top-7 features (screened by max |r| vs focal F3243, tau_max=4 steps / 24h):
+  Rank  Feature  Score   Direction     Peak lag
+  1     F3817    0.8561  feat→focal    12h
+  2     F878     0.7667  focal→feat     6h
+  3     F1232    0.7212  feat→focal    12h
+  4     F3825    0.6471  feat→focal    24h  (boundary)
+  5     F3861    0.6131  focal→feat    18h
+  6     F2274    0.6058  feat→focal    24h  (boundary)
+  7     F1592    0.5826  feat→focal    24h  (boundary)
+
+─────────────────────────────────────────────────────────────────
+PART 1 — INDIVIDUAL ZERO-ABLATIONS  (storm timestep 2021-08-30T18)
+─────────────────────────────────────────────────────────────────
+Baseline: global sparsity=0.0078 (32/4096), mean L2 recon error=20.6084
+
+Feature  Active nodes   Max code  Mean L2 Δ  Min cosine sim
+F3817    175 / 40962    2.6784    0.0059     0.9940
+F878      58 / 40962    5.3379    0.0030     0.9815
+F1232     16 / 40962    2.1870    0.0006     0.9945
+F3825    213 / 40962    4.2024    0.0098     0.9889
+F3861     91 / 40962    4.2649    0.0038     0.9827
+F2274    175 / 40962    3.5424    0.0066     0.9882
+F1592    961 / 40962    3.7995    0.0326     0.9843
+
+Notes:
+- F1592 has the widest spatial footprint (961 nodes, 2.3% of mesh) and largest
+  mean L2 perturbation. Ablating it measurably shifts 24× more nodes than F878.
+- F878 has the highest peak code value (5.34) — most concentrated / intense at
+  the nodes where it fires.
+- Sanity (ablate dead feature F16): max L2 change = 0.000000 ✓
+
+─────────────────────────────────────────────────────────────────
+PART 2 — INDIVIDUAL MEAN-ABLATIONS  (storm timestep 2021-08-30T18)
+─────────────────────────────────────────────────────────────────
+Mean-ablation replaces each node's code with the per-feature mean over all nodes
+(fairer baseline than zero — avoids introducing out-of-distribution signal).
+
+Feature  Mean L2 Δ  Min cosine sim  Notes
+F3817    0.0118     0.9940          ~2× zero-ablation (mean spreads to all nodes)
+F878     0.0060     0.9815          consistent with zero-ablation at active nodes
+F1232    0.0013     0.9945
+F3825    0.0194     0.9889
+F3861    0.0076     0.9828
+F2274    0.0132     0.9883
+F1592    0.0637     0.9846          largest effect; mean is non-trivial
+
+Conclusions match zero-ablation ordering. Results are robust to baseline choice.
+Sanity (ablate dead feature F16): max L2 change = 0.000000 ✓
+
+─────────────────────────────────────────────────────────────────
+PART 3 — INDIVIDUAL PATCHES  (storm A → calm B)
+─────────────────────────────────────────────────────────────────
+Methodology: transplant feature's codes from storm into calm; measure how much
+the calm reconstruction shifts toward storm.
+  global recovery = mean over ALL 40962 nodes
+  local  recovery = mean over nodes where feature fires in storm (active mask)
+
+Feature  Storm active  Calm active  Global rec.  Local rec.  Nodes touched
+F3817    175           127          0.0001       0.0299      302
+F878      58            32          0.0001       0.0421       90
+F1232     16             5          0.0000       0.0437       21
+F3825    213            35          0.0003       0.0550      225    ← best local
+F3861     91           179          0.0001       0.0270      262
+F2274    175            28          0.0002       0.0392      203
+F1592    961           293          0.0006       0.0266     1229
+
+Key findings:
+- F3825 has the highest local recovery (5.5%) despite a moderate correlation
+  score. It fires 6× more nodes during the storm than calm — high storm-specificity.
+- F1232 achieves 4.4% local recovery from only 16 active nodes, suggesting a
+  very concentrated causal signal.
+- F878 (4.2%) and F2274 (3.9%) are next strongest per-node causal levers.
+- F1592 covers the most territory but has the lowest per-node recovery (2.7%) —
+  likely a broad background feature rather than a storm-specific one.
+- Global recoveries are all near zero, as expected: features are spatially local
+  and the signal is diluted across 40k nodes.
+- Sanity (patch A into A): max L2 change = 0.000000 ✓
+
+─────────────────────────────────────────────────────────────────
+PART 4 — JOINT 7-FEATURE PATCH  (storm A → calm B)
+─────────────────────────────────────────────────────────────────
+Transplant all 7 features simultaneously from storm into calm.
+
+Union of storm-active nodes : 1587 / 40962  (3.9% of mesh)
+Nodes touched by patch      : 2182 / 40962
+
+Global recovery : 0.0014
+Local  recovery : 0.0346  (nodes in storm active union)
+
+Individual contributions (for comparison):
+  F3817: global=0.0001  local=0.0299  (175 nodes)
+  F878:  global=0.0001  local=0.0421  ( 58 nodes)
+  F1232: global=0.0000  local=0.0437  ( 16 nodes)
+  F3825: global=0.0003  local=0.0550  (213 nodes)
+  F3861: global=0.0001  local=0.0270  ( 91 nodes)
+  F2274: global=0.0002  local=0.0392  (175 nodes)
+  F1592: global=0.0006  local=0.0266  (961 nodes)
+
+Joint local recovery (3.46%) is lower than the best individual (F3825 = 5.50%)
+because the active-node union is larger, pulling the mean down. This is expected
+sub-additivity: some features share decoder directions, so their joint effect
+doesn't simply stack.
+Sanity (patch A into A): max L2 change = 0.000000 ✓
+
+─────────────────────────────────────────────────────────────────
+SUMMARY RANKING BY LOCAL PATCH RECOVERY
+─────────────────────────────────────────────────────────────────
+  Rank  Feature  Local rec.  Storm nodes  Corr score  Direction
+  1     F3825    0.0550      213          0.6471      feat→focal  (24h boundary)
+  2     F1232    0.0437       16          0.7212      feat→focal  (12h)
+  3     F878     0.0421       58          0.7667      focal→feat  ( 6h)
+  4     F2274    0.0392      175          0.6058      feat→focal  (24h boundary)
+  5     F3817    0.0299      175          0.8561      feat→focal  (12h)
+  6     F3861    0.0270       91          0.6131      focal→feat  (18h)
+  7     F1592    0.0266      961          0.5826      feat→focal  (24h boundary)
+
+Notable: F3825 ranks #1 by causal recovery but only #4 by correlation score,
+suggesting it carries disproportionate causal weight relative to its correlation
+with the focal TC-core feature. F1592 has the highest storm coverage but is the
+weakest causal lever per node — likely a diffuse environmental precursor.

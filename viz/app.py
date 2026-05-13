@@ -27,7 +27,12 @@ from data_loader import (  # noqa: E402
     load_registry, load_catalog, load_grid,
     get_feature_activation, get_feature_timeseries, get_timestamps,
 )
-from map_render import render_activation_map, REGION_PRESETS, COLORMAPS  # noqa: E402
+from map_render import render_activation_map, render_activation_map_plotly, REGION_PRESETS, COLORMAPS  # noqa: E402
+from globe_render import (  # noqa: E402
+    load_wind_for_timestamp, load_temperature_for_timestamp,
+    activation_to_points, temperature_to_points,
+    compute_wind_arrows, build_globe_html,
+)
 
 DATA_DIR = Path(__file__).parent / "data"
 
@@ -90,12 +95,10 @@ _default_sae = qp.get("sae_id", list(registry.keys())[0])
 _default_feature = int(qp.get("feature_id", 3243))
 _default_t = int(qp.get("t_idx", 0))
 
-def _atlas_row_selected():
-    """Callback: fires when atlas table row is clicked, before the rerun."""
-    rows = st.session_state.get("atlas_df_widget", {}).get("selection", {}).get("rows", [])
-    fid_list = st.session_state.get("_atlas_fid_list", [])
-    if rows and rows[0] < len(fid_list):
-        st.session_state["feature_id_input"] = fid_list[rows[0]]
+# Initialise feature in session state from URL (only on first load of the session).
+if "feature_id_input" not in st.session_state:
+    st.session_state["feature_id_input"] = _default_feature
+
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # SIDEBAR — shared controls
@@ -128,11 +131,12 @@ with st.sidebar:
     # Apply a pending jump from the known-feature selectbox before the widget renders.
     if "_jump_to_feature" in st.session_state:
         st.session_state["feature_id_input"] = st.session_state.pop("_jump_to_feature")
+    # value= always mirrors session state so the widget never reverts on slider reruns.
     feature_id = st.number_input(
         "Feature ID",
         min_value=0,
         max_value=info["latent"] - 1,
-        value=min(_default_feature, info["latent"] - 1),
+        value=int(st.session_state["feature_id_input"]),
         step=1,
         key="feature_id_input",
     )
@@ -191,6 +195,17 @@ with st.sidebar:
     threshold = st.slider("Activation threshold (mask below)", 0.0, 5.0, 0.0, 0.05)
 
     st.divider()
+
+    # ── Globe overlay ─────────────────────────────────────────────────────
+    st.subheader("Globe overlay")
+    overlay_mode = st.radio(
+        "Show on globe",
+        ["SAE features", "2m temperature", "SST"],
+        index=0,
+    )
+    show_wind = st.checkbox("Show wind arrows", value=True)
+
+    st.divider()
     st.caption("URL encodes current view for sharing.")
 
 # Write URL state
@@ -198,132 +213,256 @@ st.query_params["sae_id"] = sae_id
 st.query_params["feature_id"] = str(feature_id)
 st.query_params["t_idx"] = str(t_idx)
 
+@st.cache_data(show_spinner="Loading ERA5 wind…", ttl=3600)
+def cached_wind(ts: str):
+    return load_wind_for_timestamp(ts)
+
+
+@st.cache_data(show_spinner="Loading ERA5 temperature…", ttl=3600)
+def cached_era5_temp(ts: str):
+    return load_temperature_for_timestamp(ts)
+
+
+# ── Shared: compute activation grid (needed by Globe + Atlas) ─────────────────
+grid_ok = False
+activation_grid = None
+try:
+    activation_grid = cached_regrid(sae_id, t_idx, feature_id, info["n_nodes"])
+    grid_ok = True
+except Exception as e:
+    st.error(f"Interpolation failed: {e}")
+
+# Global vmax — pins colour scale across all timesteps for comparability
+_catalog_vmax: float | None = None
+if not catalog.empty and feature_id in catalog["feature_id"].values:
+    _catalog_vmax = float(catalog.loc[
+        catalog["feature_id"] == feature_id, "max_activation"
+    ].iloc[0])
+
 # ═══════════════════════════════════════════════════════════════════════════════
 # TABS
 # ═══════════════════════════════════════════════════════════════════════════════
 
-tab_inspector, tab_atlas, tab_events = st.tabs(
-    ["Feature Inspector", "Feature Atlas", "Event Browser"]
+tab_globe, tab_map, tab_atlas, tab_events = st.tabs(
+    ["Feature Inspector", "Feature Map", "Feature Atlas", "Event Browser"]
 )
 
 # ───────────────────────────────────────────────────────────────────────────────
-# TAB 1 — Feature Inspector (main view)
+# TAB 1 — Globe (primary feature inspector)
 # ───────────────────────────────────────────────────────────────────────────────
 
-with tab_inspector:
-    # ── Compute activation grid ────────────────────────────────────────────
-    grid_ok = False
-    activation_grid = None
-    try:
-        activation_grid = cached_regrid(sae_id, t_idx, feature_id, info["n_nodes"])
-        grid_ok = True
-    except Exception as e:
-        st.error(f"Interpolation failed: {e}")
+with tab_globe:
+    import streamlit.components.v1 as components
 
-    col_map, col_meta = st.columns([3, 1], gap="medium")
+    # ── Fullscreen toggle ──────────────────────────────────────────────────
+    fs = st.session_state.get("globe_fullscreen", False)
+    fs_col, _ = st.columns([1, 11])
+    with fs_col:
+        if st.button("⛶" if not fs else "⊠", key="globe_fs_btn",
+                     help="Toggle fullscreen globe"):
+            st.session_state["globe_fullscreen"] = not fs
+            st.rerun()
 
-    with col_map:
-        st.subheader(f"Feature {feature_id}  ·  {timestamp}")
-        if grid_ok:
-            grid_lat, grid_lon = load_grid()
-            fig = render_activation_map(
+    if fs:
+        st.markdown("""
+        <style>
+        section[data-testid="stSidebar"],
+        button[data-testid="stSidebarCollapsedControl"],
+        header[data-testid="stHeader"],
+        footer[data-testid="stFooter"] { display: none !important; }
+        .main .block-container {
+            padding: 0.25rem 0.75rem !important;
+            max-width: 100% !important;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+
+    globe_height = 920 if fs else 600
+
+    # ── Globe ─────────────────────────────────────────────────────────────
+    if grid_ok:
+        grid_lat, grid_lon = load_grid()
+
+        wind_arrows: list = []
+        try:
+            u10, v10, era5_lat, era5_lon = cached_wind(timestamp)
+            wind_arrows = compute_wind_arrows(u10, v10, era5_lat, era5_lon)
+        except FileNotFoundError:
+            pass  # globe renders without wind if no ERA5 file
+        except Exception:
+            pass
+        if not show_wind:
+            wind_arrows = []
+
+        if overlay_mode == "SAE features":
+            hex_points = activation_to_points(
                 activation_grid=activation_grid,
                 grid_lat=grid_lat,
                 grid_lon=grid_lon,
-                lon_bounds=(lon_min, lon_max),
-                lat_bounds=(lat_min, lat_max),
-                feature_id=feature_id,
-                timestamp=timestamp,
-                colormap=colormap,
                 threshold=threshold,
+                step=6,
             )
-            st.pyplot(fig, use_container_width=True)
-            plt = fig  # keep reference to allow tight layout
+            globe_colormap  = colormap
+            globe_vmin      = 0.0
+            globe_vmax      = _catalog_vmax if _catalog_vmax else float(np.nanmax(activation_grid))
+            globe_hex_res   = 3
+            globe_cb_title  = "SAE activation"
         else:
-            st.empty()
+            t_mode = "land" if overlay_mode == "2m temperature" else "sst"
+            try:
+                temp_c, lsm, era5_lat_t, era5_lon_t = cached_era5_temp(timestamp)
+                hex_points = temperature_to_points(
+                    temp_c, lsm, era5_lat_t, era5_lon_t, mode=t_mode, step=4
+                )
+            except FileNotFoundError:
+                hex_points = []
+                st.warning(f"No ERA5 file for {timestamp[:10]} — temperature overlay unavailable.")
+            globe_colormap  = "RdYlBu_r"
+            globe_vmin      = -30.0
+            globe_vmax      = 40.0
+            globe_hex_res   = 2
+            globe_cb_title  = "Temperature (°C)"
 
-    with col_meta:
-        st.subheader("Feature metadata")
+        html_str = build_globe_html(
+            hex_points=hex_points,
+            wind_arrows=wind_arrows,
+            feature_id=feature_id,
+            timestamp=timestamp,
+            colormap=globe_colormap,
+            vmin=globe_vmin,
+            vmax=globe_vmax,
+            hex_resolution=globe_hex_res,
+            colorbar_title=globe_cb_title,
+            height=globe_height,
+        )
+        components.html(html_str, height=globe_height + 8, scrolling=False)
+    else:
+        st.empty()
 
-        # ── Catalog stats ──────────────────────────────────────────────────
-        if not catalog.empty and feature_id in catalog["feature_id"].values:
-            row = catalog[catalog["feature_id"] == feature_id].iloc[0]
+    # ── Time series + metadata (hidden in fullscreen) ──────────────────────
+    if not fs:
+        st.subheader("Global mean activation over time")
+        ts_labels, ts_means = cached_timeseries(sae_id, feature_id, info["n_time"])
 
-            if row.get("candidate_label", ""):
-                st.info(f"**{row['candidate_label']}**")
-            if row.get("dead", False):
-                st.warning("Dead feature (never activates in this dataset)")
+        fig_ts = go.Figure()
+        fig_ts.add_trace(go.Scatter(
+            x=list(ts_labels),
+            y=ts_means.tolist(),
+            mode="lines+markers",
+            marker=dict(size=5, color="#e06c00"),
+            line=dict(color="#e06c00", width=1.5),
+            name=f"Feature {feature_id}",
+            hovertemplate="<b>%{x}</b><br>Mean activation: %{y:.4f}<extra></extra>",
+        ))
+        fig_ts.add_shape(
+            type="line",
+            x0=str(timestamp), x1=str(timestamp),
+            y0=0, y1=1,
+            xref="x", yref="paper",
+            line=dict(dash="dash", color="steelblue", width=1.5),
+        )
+        fig_ts.add_annotation(
+            x=str(timestamp), y=1.02, yref="paper",
+            text="viewing", showarrow=False,
+            font=dict(size=10, color="steelblue"), xanchor="left",
+        )
+        fig_ts.update_layout(
+            xaxis_title="Timestamp",
+            yaxis_title="Mean activation (active nodes)",
+            height=220,
+            margin=dict(l=45, r=15, t=15, b=45),
+            template="plotly_white",
+            showlegend=False,
+        )
+        st.plotly_chart(fig_ts, use_container_width=True)
 
-            st.metric("Activation frequency", f"{row['activation_frequency']:.5f}")
-            st.metric("Mean activation", f"{row['mean_activation']:.4f}")
-            st.metric("Max activation", f"{row['max_activation']:.3f}")
-            st.metric(
-                "Artifact score",
-                f"{row['artifact_score']:.3f}",
-                help="High = consistently fires at same nodes regardless of weather state "
-                     "(likely grid-locked artifact).",
-            )
+        # ── Metadata panels ────────────────────────────────────────────────
+        col_meta, col_snap = st.columns(2, gap="medium")
 
-            top_ts = row.get("top_timestamps", [])
-            if top_ts is not None and len(top_ts) > 0:
-                st.write("**Top activation timestamps:**")
-                for ts_ex in top_ts:
-                    st.code(ts_ex, language=None)
-        else:
-            st.info(
-                "Feature catalog not available. "
-                "Run `python viz/compute_stats.py` to populate metadata."
-            )
+        with col_meta:
+            st.subheader("Feature metadata")
 
-        # ── Current snapshot stats ─────────────────────────────────────────
-        if grid_ok:
-            st.divider()
-            st.caption("Current snapshot")
-            active = int((activation_grid > threshold).sum())
-            snap_max = float(np.nanmax(activation_grid))
-            st.metric("Active grid cells", f"{active:,}")
-            st.metric("Max (this snapshot)", f"{snap_max:.3f}")
+            if not catalog.empty and feature_id in catalog["feature_id"].values:
+                row = catalog[catalog["feature_id"] == feature_id].iloc[0]
 
-    # ── Time series ────────────────────────────────────────────────────────
-    st.subheader("Global mean activation over time")
-    ts_labels, ts_means = cached_timeseries(sae_id, feature_id, info["n_time"])
+                if row.get("candidate_label", ""):
+                    st.info(f"**{row['candidate_label']}**")
+                if row.get("dead", False):
+                    st.warning("Dead feature (never activates in this dataset)")
 
-    fig_ts = go.Figure()
-    fig_ts.add_trace(go.Scatter(
-        x=list(ts_labels),
-        y=ts_means.tolist(),
-        mode="lines+markers",
-        marker=dict(size=5, color="#e06c00"),
-        line=dict(color="#e06c00", width=1.5),
-        name=f"Feature {feature_id}",
-        hovertemplate="<b>%{x}</b><br>Mean activation: %{y:.4f}<extra></extra>",
-    ))
-    # Vertical line for current selection (add_vline fails on categorical axes in plotly 6)
-    fig_ts.add_shape(
-        type="line",
-        x0=str(timestamp), x1=str(timestamp),
-        y0=0, y1=1,
-        xref="x", yref="paper",
-        line=dict(dash="dash", color="steelblue", width=1.5),
-    )
-    fig_ts.add_annotation(
-        x=str(timestamp), y=1.02, yref="paper",
-        text="viewing", showarrow=False,
-        font=dict(size=10, color="steelblue"), xanchor="left",
-    )
-    fig_ts.update_layout(
-        xaxis_title="Timestamp",
-        yaxis_title="Mean activation (active nodes)",
-        height=220,
-        margin=dict(l=45, r=15, t=15, b=45),
-        template="plotly_white",
-        showlegend=False,
-    )
-    st.plotly_chart(fig_ts, use_container_width=True)
+                st.metric("Activation frequency", f"{row['activation_frequency']:.5f}")
+                st.metric("Mean activation", f"{row['mean_activation']:.4f}")
+                st.metric("Max activation", f"{row['max_activation']:.3f}",
+                          help="Highest SAE code value this feature has reached "
+                               "across all nodes and timesteps in this dataset.")
+                st.metric(
+                    "Artifact score",
+                    f"{row['artifact_score']:.3f}",
+                    help="High = consistently fires at same nodes regardless of weather state "
+                         "(likely grid-locked artifact).",
+                )
+
+                top_ts = row.get("top_timestamps", [])
+                if top_ts is not None and len(top_ts) > 0:
+                    st.write("**Top activation timestamps:**")
+                    for ts_ex in top_ts:
+                        st.code(ts_ex, language=None)
+            else:
+                st.info(
+                    "Feature catalog not available. "
+                    "Run `python viz/compute_stats.py` to populate metadata."
+                )
+
+        with col_snap:
+            st.subheader("Current snapshot")
+            if grid_ok:
+                active = int((activation_grid > threshold).sum())
+                snap_max = float(np.nanmax(activation_grid))
+                st.metric("Active grid cells", f"{active:,}")
+                st.metric(
+                    "Max (this snapshot)",
+                    f"{snap_max:.3f}",
+                    help="Peak SAE activation code for this feature at the selected timestep. "
+                         "The feature reaches at this moment in time.",
+                )
+                if _catalog_vmax is not None:
+                    st.metric(
+                        "Max (all time)",
+                        f"{_catalog_vmax:.3f}",
+                        help="Global maximum across all timesteps in this dataset. "
+                             "The colour scale is pinned to this value so the globe and map "
+                             "are directly comparable as you step through time.",
+                    )
 
 
 # ───────────────────────────────────────────────────────────────────────────────
-# TAB 2 — Feature Atlas (sortable / filterable catalog)
+# TAB 2 — Feature Map (interactive Plotly map)
+# ───────────────────────────────────────────────────────────────────────────────
+
+with tab_map:
+    if grid_ok:
+        grid_lat_m, grid_lon_m = load_grid()
+        fig_map = render_activation_map_plotly(
+            activation_grid=activation_grid,
+            grid_lat=grid_lat_m,
+            grid_lon=grid_lon_m,
+            lon_bounds=(lon_min, lon_max),
+            lat_bounds=(lat_min, lat_max),
+            feature_id=feature_id,
+            timestamp=timestamp,
+            colormap=colormap,
+            threshold=threshold,
+            vmax=_catalog_vmax,
+            height=620,
+        )
+        st.plotly_chart(fig_map, use_container_width=True,
+                        config={"scrollZoom": True, "displayModeBar": False})
+    else:
+        st.error("Activation grid unavailable.")
+
+
+# ───────────────────────────────────────────────────────────────────────────────
+# TAB 3 — Feature Atlas (sortable / filterable catalog)
 # ───────────────────────────────────────────────────────────────────────────────
 
 with tab_atlas:
@@ -374,16 +513,11 @@ with tab_atlas:
             "artifact_score", "dead",
         ]
         atlas_df = df[display_cols].reset_index(drop=True)
-        # Store row→feature_id mapping so the callback can look it up
-        st.session_state["_atlas_fid_list"] = atlas_df["feature_id"].tolist()
 
         st.dataframe(
             atlas_df,
-            key="atlas_df_widget",
             use_container_width=True,
             height=480,
-            on_select=_atlas_row_selected,
-            selection_mode="single-row",
             column_config={
                 "feature_id": st.column_config.NumberColumn("ID", width="small"),
                 "activation_frequency": st.column_config.NumberColumn(
@@ -397,6 +531,7 @@ with tab_atlas:
                 "candidate_label": st.column_config.TextColumn("Label", width="large"),
             },
         )
+
         st.caption(f"Showing {len(df):,} / {len(catalog):,} features")
 
         # ── Activation frequency histogram ─────────────────────────────────

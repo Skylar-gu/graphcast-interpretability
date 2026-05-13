@@ -1,0 +1,1603 @@
+JAX compilation cache: data/graphcast_cache/jax_compile_cache
+Downloading ERA5 for 89 missing days (in monthly chunks)…
+  Fetching 2021-09 (27 days): 2021-09-03 → 2021-10-01
+Downloading ERA5 2021-09-03 → 2021-10-01 from GCS (anonymous)…
+/lambda/nfs/demo/graphcast-interpretability/scripts/generate_activations.py:85: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  print(f"  ERA5 loaded: {dict(ds.dims)}")
+  ERA5 loaded: {'time': 113, 'level': 37, 'lat': 721, 'lon': 1440}
+  Wrote data/era5_daily/era5_2021-09-03.nc
+  Wrote data/era5_daily/era5_2021-09-04.nc
+  Wrote data/era5_daily/era5_2021-09-05.nc
+  Wrote data/era5_daily/era5_2021-09-06.nc
+  Wrote data/era5_daily/era5_2021-09-07.nc
+  Wrote data/era5_daily/era5_2021-09-08.nc
+  Wrote data/era5_daily/era5_2021-09-09.nc
+  Wrote data/era5_daily/era5_2021-09-10.nc
+  Wrote data/era5_daily/era5_2021-09-11.nc
+  Wrote data/era5_daily/era5_2021-09-12.nc
+  Wrote data/era5_daily/era5_2021-09-13.nc
+  Wrote data/era5_daily/era5_2021-09-14.nc
+  Wrote data/era5_daily/era5_2021-09-15.nc
+  Wrote data/era5_daily/era5_2021-09-16.nc
+  Wrote data/era5_daily/era5_2021-09-17.nc
+  Wrote data/era5_daily/era5_2021-09-18.nc
+  Wrote data/era5_daily/era5_2021-09-19.nc
+  Wrote data/era5_daily/era5_2021-09-20.nc
+  Wrote data/era5_daily/era5_2021-09-21.nc
+  Wrote data/era5_daily/era5_2021-09-22.nc
+  Wrote data/era5_daily/era5_2021-09-23.nc
+  Wrote data/era5_daily/era5_2021-09-24.nc
+  Wrote data/era5_daily/era5_2021-09-25.nc
+  Wrote data/era5_daily/era5_2021-09-26.nc
+  Wrote data/era5_daily/era5_2021-09-27.nc
+  Wrote data/era5_daily/era5_2021-09-28.nc
+  Wrote data/era5_daily/era5_2021-09-29.nc
+  Wrote data/era5_daily/era5_2021-09-30.nc
+  Wrote data/era5_daily/era5_2021-10-01.nc
+  Fetching 2021-10 (31 days): 2021-09-30 → 2021-11-01
+Downloading ERA5 2021-09-30 → 2021-11-01 from GCS (anonymous)…
+/lambda/nfs/demo/graphcast-interpretability/scripts/generate_activations.py:85: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  print(f"  ERA5 loaded: {dict(ds.dims)}")
+  ERA5 loaded: {'time': 129, 'level': 37, 'lat': 721, 'lon': 1440}
+  Wrote data/era5_daily/era5_2021-09-30.nc
+  Wrote data/era5_daily/era5_2021-10-01.nc
+  Wrote data/era5_daily/era5_2021-10-02.nc
+  Wrote data/era5_daily/era5_2021-10-03.nc
+  Wrote data/era5_daily/era5_2021-10-04.nc
+  Wrote data/era5_daily/era5_2021-10-05.nc
+  Wrote data/era5_daily/era5_2021-10-06.nc
+  Wrote data/era5_daily/era5_2021-10-07.nc
+  Wrote data/era5_daily/era5_2021-10-08.nc
+  Wrote data/era5_daily/era5_2021-10-09.nc
+  Wrote data/era5_daily/era5_2021-10-10.nc
+  Wrote data/era5_daily/era5_2021-10-11.nc
+  Wrote data/era5_daily/era5_2021-10-12.nc
+  Wrote data/era5_daily/era5_2021-10-13.nc
+  Wrote data/era5_daily/era5_2021-10-14.nc
+  Wrote data/era5_daily/era5_2021-10-15.nc
+  Wrote data/era5_daily/era5_2021-10-16.nc
+  Wrote data/era5_daily/era5_2021-10-17.nc
+  Wrote data/era5_daily/era5_2021-10-18.nc
+  Wrote data/era5_daily/era5_2021-10-19.nc
+  Wrote data/era5_daily/era5_2021-10-20.nc
+  Wrote data/era5_daily/era5_2021-10-21.nc
+  Wrote data/era5_daily/era5_2021-10-22.nc
+  Wrote data/era5_daily/era5_2021-10-23.nc
+  Wrote data/era5_daily/era5_2021-10-24.nc
+  Wrote data/era5_daily/era5_2021-10-25.nc
+  Wrote data/era5_daily/era5_2021-10-26.nc
+  Wrote data/era5_daily/era5_2021-10-27.nc
+  Wrote data/era5_daily/era5_2021-10-28.nc
+  Wrote data/era5_daily/era5_2021-10-29.nc
+  Wrote data/era5_daily/era5_2021-10-30.nc
+  Wrote data/era5_daily/era5_2021-10-31.nc
+  Wrote data/era5_daily/era5_2021-11-01.nc
+  Fetching 2021-11 (30 days): 2021-10-31 → 2021-12-01
+Downloading ERA5 2021-10-31 → 2021-12-01 from GCS (anonymous)…
+/lambda/nfs/demo/graphcast-interpretability/scripts/generate_activations.py:85: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  print(f"  ERA5 loaded: {dict(ds.dims)}")
+  ERA5 loaded: {'time': 125, 'level': 37, 'lat': 721, 'lon': 1440}
+  Wrote data/era5_daily/era5_2021-10-31.nc
+  Wrote data/era5_daily/era5_2021-11-01.nc
+  Wrote data/era5_daily/era5_2021-11-02.nc
+  Wrote data/era5_daily/era5_2021-11-03.nc
+  Wrote data/era5_daily/era5_2021-11-04.nc
+  Wrote data/era5_daily/era5_2021-11-05.nc
+  Wrote data/era5_daily/era5_2021-11-06.nc
+  Wrote data/era5_daily/era5_2021-11-07.nc
+  Wrote data/era5_daily/era5_2021-11-08.nc
+  Wrote data/era5_daily/era5_2021-11-09.nc
+  Wrote data/era5_daily/era5_2021-11-10.nc
+  Wrote data/era5_daily/era5_2021-11-11.nc
+  Wrote data/era5_daily/era5_2021-11-12.nc
+  Wrote data/era5_daily/era5_2021-11-13.nc
+  Wrote data/era5_daily/era5_2021-11-14.nc
+  Wrote data/era5_daily/era5_2021-11-15.nc
+  Wrote data/era5_daily/era5_2021-11-16.nc
+  Wrote data/era5_daily/era5_2021-11-17.nc
+  Wrote data/era5_daily/era5_2021-11-18.nc
+  Wrote data/era5_daily/era5_2021-11-19.nc
+  Wrote data/era5_daily/era5_2021-11-20.nc
+  Wrote data/era5_daily/era5_2021-11-21.nc
+  Wrote data/era5_daily/era5_2021-11-22.nc
+  Wrote data/era5_daily/era5_2021-11-23.nc
+  Wrote data/era5_daily/era5_2021-11-24.nc
+  Wrote data/era5_daily/era5_2021-11-25.nc
+  Wrote data/era5_daily/era5_2021-11-26.nc
+  Wrote data/era5_daily/era5_2021-11-27.nc
+  Wrote data/era5_daily/era5_2021-11-28.nc
+  Wrote data/era5_daily/era5_2021-11-29.nc
+  Wrote data/era5_daily/era5_2021-11-30.nc
+  Wrote data/era5_daily/era5_2021-12-01.nc
+  Fetching 2021-12 (1 days): 2021-11-30 → 2021-12-02
+Downloading ERA5 2021-11-30 → 2021-12-02 from GCS (anonymous)…
+/lambda/nfs/demo/graphcast-interpretability/scripts/generate_activations.py:85: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  print(f"  ERA5 loaded: {dict(ds.dims)}")
+  ERA5 loaded: {'time': 9, 'level': 37, 'lat': 721, 'lon': 1440}
+  Wrote data/era5_daily/era5_2021-11-30.nc
+  Wrote data/era5_daily/era5_2021-12-01.nc
+  Wrote data/era5_daily/era5_2021-12-02.nc
+Using cached GraphCast checkpoint: data/graphcast_cache/graphcast_ckpt.npz
+
+Running 360 timesteps…
+[2021-09-02T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+/lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/autoregressive.py:202: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  scan_length = targets_template.dims['time']
+WARNING:absl:Skipping gradient checkpointing for sequence length of 1
+/lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/autoregressive.py:115: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_inputs = inputs.dims['time']
+done (97.8s)
+[2021-09-02T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (6.3s)
+[2021-09-02T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-09-02T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-09-03T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.9s)
+[2021-09-03T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-03T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.9s)
+[2021-09-03T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.9s)
+[2021-09-04T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-09-04T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-04T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.9s)
+[2021-09-04T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-05T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-05T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-09-05T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-05T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-06T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-09-06T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-06T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.7s)
+[2021-09-06T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.9s)
+[2021-09-07T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.9s)
+[2021-09-07T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-09-07T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-09-07T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-09-08T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-08T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-09-08T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-08T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-09-09T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-09T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-09T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-09-09T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-10T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-10T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-09-10T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-10T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-09-11T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-11T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-09-11T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-09-11T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-12T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-09-12T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-12T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-09-12T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-09-13T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.7s)
+[2021-09-13T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-09-13T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-09-13T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-09-14T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.7s)
+[2021-09-14T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-09-14T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-09-14T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-09-15T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-09-15T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-09-15T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-09-15T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-09-16T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-09-16T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-09-16T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-16T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-17T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-09-17T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-09-17T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-09-17T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-18T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-18T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.4s)
+[2021-09-18T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-09-18T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.9s)
+[2021-09-19T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.8s)
+[2021-09-19T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-09-19T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-19T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-09-20T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-20T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-09-20T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-09-20T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.7s)
+[2021-09-21T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.8s)
+[2021-09-21T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.7s)
+[2021-09-21T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-09-21T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-09-22T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-09-22T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.5s)
+[2021-09-22T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.7s)
+[2021-09-22T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-23T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-09-23T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-09-23T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-09-23T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-24T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-09-24T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.6s)
+[2021-09-24T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-24T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-25T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-25T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-09-25T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-09-25T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-26T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-26T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-09-26T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-26T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.7s)
+[2021-09-27T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-27T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-09-27T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-27T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-09-28T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-09-28T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-09-28T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-09-28T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-29T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-29T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-29T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-09-29T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-09-30T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-09-30T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-09-30T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.7s)
+[2021-09-30T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.7s)
+[2021-10-01T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-10-01T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-10-01T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-01T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-02T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-02T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-10-02T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-02T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-03T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-03T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-03T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.7s)
+[2021-10-03T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-10-04T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-10-04T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-04T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.7s)
+[2021-10-04T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-10-05T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-05T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-05T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.8s)
+[2021-10-05T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-06T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-06T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-06T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-06T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.8s)
+[2021-10-07T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-10-07T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-10-07T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-10-07T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-08T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-08T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-10-08T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-08T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-10-09T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-09T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-09T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-09T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-10-10T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-10T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-10-10T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-10-10T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-11T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-11T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-11T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-11T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-12T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.8s)
+[2021-10-12T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-12T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-12T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-13T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-13T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-10-13T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-13T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-14T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-14T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-14T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-14T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.8s)
+[2021-10-15T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-15T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-15T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.8s)
+[2021-10-15T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-16T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-16T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-16T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-16T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.9s)
+[2021-10-17T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-17T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-17T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.8s)
+[2021-10-17T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-18T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-18T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-18T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-18T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.9s)
+[2021-10-19T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-19T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-19T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.8s)
+[2021-10-19T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-20T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-20T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-20T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-20T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.8s)
+[2021-10-21T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-10-21T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-21T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.7s)
+[2021-10-21T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-22T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-22T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-10-22T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-22T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.8s)
+[2021-10-23T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-23T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-23T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-23T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-24T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-24T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-24T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-24T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.8s)
+[2021-10-25T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-25T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-25T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-25T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-26T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-10-26T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-26T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-26T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.7s)
+[2021-10-27T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-27T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-27T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.9s)
+[2021-10-27T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-10-28T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-28T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-10-28T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-28T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-10-29T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-10-29T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-29T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-10-29T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.7s)
+[2021-10-30T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-30T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-10-30T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-10-30T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-31T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-31T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-10-31T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-10-31T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-01T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-11-01T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-01T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-11-01T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-02T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.7s)
+[2021-11-02T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-11-02T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-02T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-03T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-03T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-03T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-03T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-04T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-04T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-04T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-04T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-11-05T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-05T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-11-05T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-05T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-06T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-06T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-11-06T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-11-06T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-07T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.8s)
+[2021-11-07T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-11-07T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-11-07T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-08T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-08T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.4s)
+[2021-11-08T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.9s)
+[2021-11-08T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-09T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-09T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-11-09T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-09T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-10T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-10T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.4s)
+[2021-11-10T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-10T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.8s)
+[2021-11-11T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-11T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-11T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-11T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-12T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-12T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.4s)
+[2021-11-12T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.8s)
+[2021-11-12T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-13T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-13T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-13T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.9s)
+[2021-11-13T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.7s)
+[2021-11-14T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-14T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-14T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-14T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-15T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-11-15T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-15T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-15T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.7s)
+[2021-11-16T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-16T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-16T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.8s)
+[2021-11-16T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-11-17T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-17T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-11-17T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-17T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.8s)
+[2021-11-18T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-18T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-18T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.7s)
+[2021-11-18T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-11-19T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-19T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-11-19T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-19T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.7s)
+[2021-11-20T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-20T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-20T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-11-20T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-11-21T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-21T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-21T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-21T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-22T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-11-22T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-22T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.7s)
+[2021-11-22T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-23T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-23T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-23T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-23T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.8s)
+[2021-11-24T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-24T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-24T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.8s)
+[2021-11-24T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-25T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-25T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-25T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.3s)
+[2021-11-25T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.8s)
+[2021-11-26T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-26T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+[2021-11-26T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.8s)
+[2021-11-26T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-27T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-27T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-27T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-27T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.7s)
+[2021-11-28T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-28T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-28T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.8s)
+[2021-11-28T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-29T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-29T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-29T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-29T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.8s)
+[2021-11-30T00] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.1s)
+[2021-11-30T06] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.2s)
+[2021-11-30T12] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (4.8s)
+[2021-11-30T18] windowing… /lambda/nfs/demo/graphcast-interpretability/.venv/lib/python3.11/site-packages/graphcast/rollout.py:295: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  num_target_steps = targets_template.dims["time"]
+done (5.0s)
+
+Finished 360/360 timesteps in 18742.5s
+Activations saved to: data/activations_raw/
+Output files (392):
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-24T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-24T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-24T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-24T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-25T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-25T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-25T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-25T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-26T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-26T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-26T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-26T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-27T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-27T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-27T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-27T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-28T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-28T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-28T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-28T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-29T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-29T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-29T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-29T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-30T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-30T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-30T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-30T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-31T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-31T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-31T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-08-31T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-02T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-02T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-02T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-02T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-03T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-03T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-03T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-03T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-04T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-04T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-04T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-04T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-05T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-05T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-05T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-05T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-06T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-06T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-06T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-06T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-07T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-07T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-07T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-07T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-08T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-08T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-08T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-08T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-09T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-09T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-09T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-09T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-10T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-10T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-10T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-10T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-11T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-11T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-11T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-11T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-12T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-12T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-12T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-12T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-13T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-13T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-13T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-13T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-14T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-14T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-14T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-14T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-15T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-15T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-15T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-15T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-16T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-16T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-16T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-16T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-17T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-17T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-17T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-17T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-18T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-18T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-18T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-18T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-19T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-19T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-19T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-19T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-20T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-20T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-20T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-20T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-21T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-21T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-21T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-21T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-22T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-22T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-22T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-22T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-23T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-23T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-23T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-23T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-24T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-24T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-24T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-24T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-25T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-25T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-25T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-25T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-26T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-26T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-26T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-26T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-27T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-27T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-27T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-27T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-28T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-28T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-28T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-28T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-29T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-29T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-29T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-29T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-30T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-30T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-30T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-09-30T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-01T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-01T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-01T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-01T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-02T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-02T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-02T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-02T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-03T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-03T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-03T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-03T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-04T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-04T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-04T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-04T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-05T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-05T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-05T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-05T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-06T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-06T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-06T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-06T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-07T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-07T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-07T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-07T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-08T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-08T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-08T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-08T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-09T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-09T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-09T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-09T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-10T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-10T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-10T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-10T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-11T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-11T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-11T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-11T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-12T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-12T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-12T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-12T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-13T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-13T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-13T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-13T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-14T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-14T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-14T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-14T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-15T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-15T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-15T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-15T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-16T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-16T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-16T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-16T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-17T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-17T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-17T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-17T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-18T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-18T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-18T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-18T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-19T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-19T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-19T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-19T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-20T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-20T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-20T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-20T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-21T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-21T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-21T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-21T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-22T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-22T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-22T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-22T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-23T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-23T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-23T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-23T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-24T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-24T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-24T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-24T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-25T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-25T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-25T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-25T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-26T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-26T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-26T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-26T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-27T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-27T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-27T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-27T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-28T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-28T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-28T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-28T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-29T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-29T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-29T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-29T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-30T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-30T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-30T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-30T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-31T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-31T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-31T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-10-31T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-01T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-01T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-01T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-01T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-02T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-02T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-02T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-02T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-03T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-03T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-03T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-03T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-04T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-04T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-04T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-04T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-05T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-05T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-05T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-05T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-06T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-06T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-06T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-06T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-07T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-07T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-07T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-07T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-08T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-08T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-08T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-08T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-09T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-09T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-09T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-09T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-10T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-10T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-10T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-10T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-11T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-11T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-11T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-11T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-12T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-12T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-12T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-12T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-13T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-13T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-13T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-13T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-14T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-14T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-14T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-14T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-15T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-15T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-15T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-15T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-16T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-16T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-16T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-16T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-17T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-17T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-17T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-17T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-18T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-18T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-18T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-18T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-19T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-19T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-19T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-19T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-20T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-20T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-20T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-20T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-21T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-21T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-21T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-21T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-22T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-22T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-22T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-22T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-23T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-23T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-23T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-23T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-24T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-24T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-24T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-24T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-25T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-25T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-25T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-25T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-26T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-26T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-26T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-26T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-27T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-27T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-27T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-27T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-28T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-28T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-28T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-28T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-29T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-29T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-29T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-29T18.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-30T00.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-30T06.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-30T12.npy  (41.9 MB)
+  layer0008_mesh_gnn_post_res_nodes_mesh_nodes_t2021-11-30T18.npy  (41.9 MB)
